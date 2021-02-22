@@ -5,6 +5,11 @@ import 'package:stacked_services/stacked_services.dart';
 
 class LandingPageViewModel extends BaseViewModel {
   NavigationService _navigationService = locator<NavigationService>();
+  Future getLocation() async {
+
+
+    
+  }
 
   Future handleStartUpLogic() async {
     await Future.delayed(Duration(seconds: 1));

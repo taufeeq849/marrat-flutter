@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "90700511986",
+    "project_id": "marrat-64c63",
+    "storage_bucket": "marrat-64c63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90700511986:android:a63731bf4c45e13cf2ae6b",
+        "android_client_info": {
+          "package_name": "com.example.marrat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90700511986-ihn8it1bh6bf4cn24asijrbkqcijg7q4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marrat",
+            "certificate_hash": "1f50c9495cbce30324dffaba248a4c32e8a6dc20"
+          }
+        },
+        {
+          "client_id": "90700511986-e7cfof38srt64tbdoaitgbab7ec1th08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgFNAnLpSFeBi9D1MISXZbi4hU0XK3hCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90700511986-e7cfof38srt64tbdoaitgbab7ec1th08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

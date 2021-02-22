@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-final Color primaryColor = Colors.green;
+final Color primaryColor = Colors.blue;
 
 final Color lightGreenShade = Color.fromRGBO(57, 247, 171, 0.9);
 

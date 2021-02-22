@@ -8,7 +8,7 @@ class LandingPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-      builder: (context, model, child) {
+      builder: (context, LandingPageViewModel model, child) {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Center(

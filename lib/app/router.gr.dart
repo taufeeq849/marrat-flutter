@@ -15,13 +15,9 @@ import '../ui/views/landing_page/landing_page_view.dart';
 class Routes {
   static const String landingPageView = '/';
   static const String homeView = '/home-view';
-  static const String editProfileView = '/edit-profile-view';
-  static const String fullScreenVideoView = '/full-screen-video-view';
   static const all = <String>{
     landingPageView,
     homeView,
-    editProfileView,
-    fullScreenVideoView,
   };
 }
 
@@ -31,7 +27,6 @@ class Router extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.landingPageView, page: LandingPageView),
     RouteDef(Routes.homeView, page: HomeView),
-    RouteDef(Routes.fullScreenVideoView, page: FullScreenVideoView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -51,22 +46,6 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    EditProfileView: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => EditProfileView(),
-        settings: data,
-      );
-    },
-    FullScreenVideoView: (data) {
-      final args = data.getArgs<FullScreenVideoViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => FullScreenVideoView(
-          args.video,
-          key: args.key,
-        ),
-        settings: data,
-      );
-    },
   };
 }
 
@@ -78,11 +57,4 @@ class Router extends RouterBase {
 class HomeViewArguments {
   final int selectedIndex;
   HomeViewArguments({this.selectedIndex = 0});
-}
-
-/// FullScreenVideoView arguments holder class
-class FullScreenVideoViewArguments {
-  final dynamic video;
-  final Key key;
-  FullScreenVideoViewArguments({@required this.video, this.key});
 }
