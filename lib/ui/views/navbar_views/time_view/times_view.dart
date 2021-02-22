@@ -7,9 +7,14 @@ class TimesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-        builder: (context, model, child) => Center(
-              child: Text("Discover View"),
-            ),
+        onModelReady: (TimesViewModel model) => model.getLocation(),
+        builder: (context, TimesViewModel model, child) =>
+            model.userLocation == null
+                ? Center(child: CircularProgressIndicator())
+                : Center(
+                    child: Text(model.userLocation.latitude.toString() +
+                        model.userLocation.longitude.toString()),
+                  ),
         viewModelBuilder: () => TimesViewModel());
   }
 }

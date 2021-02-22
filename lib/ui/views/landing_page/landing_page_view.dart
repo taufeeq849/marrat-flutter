@@ -20,17 +20,22 @@ class LandingPageView extends StatelessWidget {
                   height: 400,
                   child: Image.asset('assets/images/app_icon.png'),
                 ),
-                CircularProgressIndicator(
-                  strokeWidth: 3,
-                  valueColor: AlwaysStoppedAnimation(primaryColor),
-                )
+                model.errorMessage != null
+                    ? Text(
+                        model.errorMessage,
+                        textAlign: TextAlign.center,
+                      )
+                    : CircularProgressIndicator(
+                        strokeWidth: 3,
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
+                      ),
               ],
             ),
           ),
         );
       },
       viewModelBuilder: () => LandingPageViewModel(),
-      onModelReady: (model) => model.handleStartUpLogic(),
+      onModelReady: (LandingPageViewModel model) => model.getLocation(),
     );
   }
 }
