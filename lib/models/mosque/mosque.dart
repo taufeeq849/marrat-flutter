@@ -55,6 +55,7 @@ class Mosque {
           abnormalPrayerTimes?.map((x) => x?.toMap())?.toList(),
       'hasLadiesFacilities': hasLadiesFacilities,
       'hasWudhuKhana': hasWudhuKhana,
+      'geohash': location.toMap(),
     };
   }
 

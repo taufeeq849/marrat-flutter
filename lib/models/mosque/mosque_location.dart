@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:geoflutterfire/geoflutterfire.dart';
+
 class MosqueLocation {
-  var geohash;
+  GeoFirePoint geohash;
   double latitude;
   double longitude;
   MosqueLocation({
@@ -24,7 +26,7 @@ class MosqueLocation {
 
   Map<String, dynamic> toMap() {
     return {
-      'geohash': geohash?.toMap(),
+      'geohash': geohash?.data.toString(),
       'latitude': latitude,
       'longitude': longitude,
     };
@@ -32,9 +34,9 @@ class MosqueLocation {
 
   factory MosqueLocation.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return MosqueLocation(
-    //TODO  geohash: var.fromMap(map['geohash']),
+      //TODO  geohash: var.fromMap(map['geohash']),
       latitude: map['latitude'],
       longitude: map['longitude'],
     );
@@ -42,19 +44,21 @@ class MosqueLocation {
 
   String toJson() => json.encode(toMap());
 
-  factory MosqueLocation.fromJson(String source) => MosqueLocation.fromMap(json.decode(source));
+  factory MosqueLocation.fromJson(String source) =>
+      MosqueLocation.fromMap(json.decode(source));
 
   @override
-  String toString() => 'MosqueLocation(geohash: $geohash, latitude: $latitude, longitude: $longitude)';
+  String toString() =>
+      'MosqueLocation(geohash: $geohash, latitude: $latitude, longitude: $longitude)';
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is MosqueLocation &&
-      o.geohash == geohash &&
-      o.latitude == latitude &&
-      o.longitude == longitude;
+        o.geohash == geohash &&
+        o.latitude == latitude &&
+        o.longitude == longitude;
   }
 
   @override

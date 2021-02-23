@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:marrat/app/locator.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/mosque/mosque_location.dart';
@@ -7,6 +9,7 @@ import 'package:marrat/services/database/firestore_service.dart';
 import 'package:marrat/services/images/image_picker.dart';
 import 'package:marrat/services/location/autocomplete_service.dart';
 import 'package:marrat/services/location/geocoder_service.dart';
+import 'package:marrat/services/location/geohash_service.dart';
 import 'package:marrat/services/storage/firebase_storage_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -20,6 +23,7 @@ class AddMosqueViewModel extends BaseViewModel {
   AutocompleteService _autocompleteService = locator<AutocompleteService>();
   GeocoderService _geocoderService = locator<GeocoderService>();
   FirestoreService _firestoreService = locator<FirestoreService>();
+  GeoHashService _geoHashService = locator<GeoHashService>();
   String nameValidationMessage;
   String locationValidationMessage;
   changeLadiesValue(bool isSelected) {
@@ -57,32 +61,22 @@ class AddMosqueViewModel extends BaseViewModel {
   }
 
   getCoordinates(String address) async {
-    var result = await _geocoderService.getAddressFromLocation(address);
-    if (result is MosqueLocation) {
-      return mosqueData.location = result;
+    var result = await _geocoderService.getLatLngFromAddress(address);
+
+    if (result is Coordinates) {
+      var geohash = _geoHashService.getGeoHashFromCoords(
+          lat: result.latitude, long: result.longitude);
+
+      return mosqueData.location = MosqueLocation(
+          geohash: geohash,
+          latitude: result.latitude,
+          longitude: result.longitude);
     } else {
       return await _dialogService.showDialog(
           title: 'Error',
           description: 'Failed to get coordinates, try again later',
           buttonTitle: 'Ok');
     }
-  }
-
-  validateFields(String name, String location) {
-    nameValidationMessage = null;
-    locationValidationMessage = null;
-    bool isValid = true;
-
-    if (name.length == 0) {
-      nameValidationMessage = "Name Required";
-      isValid = false;
-    }
-    if (location.length == 0) {
-      locationValidationMessage = "Location Required";
-      isValid = false;
-    }
-    notifyListeners();
-    return isValid;
   }
 
   submit() async {
@@ -100,10 +94,46 @@ class AddMosqueViewModel extends BaseViewModel {
     }
   }
 
-  onSubmit(String name, String location) {
-    var valid = validateFields(name, location);
-    if (valid) {
-      return submit();
+  int currentStep = 0;
+  bool complete = false;
+  next(int length, {String name, location}) {
+    switch (currentStep) {
+      case 0:
+        goTo(currentStep + 1);
+        break;
+      case 1:
+        if (name?.length > 0) {
+          mosqueData.mosqueName = name;
+
+          goTo(currentStep + 1);
+        } else {
+          nameValidationMessage = "Name is required";
+        }
+        break;
+      case 2:
+        if (location?.length > 0) {
+          getCoordinates(location);
+          goTo(currentStep + 1);
+        } else {
+          locationValidationMessage = "Location is required";
+        }
+        break;
+      default:
+        currentStep + 1 != length ? goTo(currentStep + 1) : complete = true;
+        break;
     }
+    notifyListeners();
+  }
+
+  cancel() {
+    if (currentStep > 0) {
+      goTo(currentStep - 1);
+    }
+    notifyListeners();
+  }
+
+  goTo(int step) {
+    currentStep = step;
+    notifyListeners();
   }
 }
