@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:marrat/constants/constants.dart';
+import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:marrat/styles/ui_helpers.dart';
-import 'package:marrat/ui/views/navbar_views/add_mosque/add_mosque_view_model.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
 import 'package:marrat/ui/widgets/checkbox_input_field.dart';
 import 'package:marrat/ui/widgets/image_uploader.dart';
 import 'package:marrat/ui/widgets/input_field.dart';
+
+import 'add_mosque_view_model.dart';
 
 class AddMosqueView extends StatelessWidget {
   TextEditingController mosqueNameController = new TextEditingController();
@@ -43,30 +47,41 @@ class AddMosqueView extends StatelessWidget {
             placeholder: "Mosque Name"));
   }
 
-  Step getLocationStep(
-      selectedIndex, Function getAutoCompleteSuggestions, context) {
+  Step getLocationStep(selectedIndex, Function getAutoCompleteSuggestions,
+      String locationValidationMessage, context) {
     return Step(
       title: Text("Location"),
       isActive: selectedIndex == 2,
-      content: TypeAheadField(
-        textFieldConfiguration: TextFieldConfiguration(
-            controller: mosqueLocationController,
-            style: DefaultTextStyle.of(context)
-                .style
-                .copyWith(fontStyle: FontStyle.italic),
-            decoration: InputDecoration(border: OutlineInputBorder())),
-        suggestionsCallback: (pattern) async {
-          if (pattern != null) {
-            return await getAutoCompleteSuggestions(pattern);
-          }
-          return [];
-        },
-        itemBuilder: (context, suggestion) {
-          return Text(suggestion.address);
-        },
-        onSuggestionSelected: (suggestion) {
-          mosqueLocationController.text = suggestion.address;
-        },
+      content: Column(
+        children: [
+          TypeAheadField(
+            textFieldConfiguration: TextFieldConfiguration(
+                controller: mosqueLocationController,
+                style: DefaultTextStyle.of(context)
+                    .style
+                    .copyWith(fontStyle: FontStyle.italic),
+                decoration: InputDecoration(border: OutlineInputBorder())),
+            suggestionsCallback: (pattern) async {
+              if (pattern != null) {
+                return await getAutoCompleteSuggestions(pattern);
+              }
+              return [];
+            },
+            itemBuilder: (context, suggestion) {
+              return Text(suggestion.address);
+            },
+            onSuggestionSelected: (suggestion) {
+              mosqueLocationController.text = suggestion.address;
+            },
+          ),
+          locationValidationMessage != null
+              ? Text(
+                  "Location is required",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.red),
+                )
+              : Container()
+        ],
       ),
     );
   }
@@ -105,42 +120,46 @@ class AddMosqueView extends StatelessWidget {
                 model.uploadImage),
             getNameStep(model.currentStep, mosqueNameController,
                 model.nameValidationMessage),
-            getLocationStep(
-                model.currentStep, model.getAutocompleteSuggestions, context),
+            getLocationStep(model.currentStep, model.getAutocompleteSuggestions,
+                model.locationValidationMessage, context),
             getAmmenitiesStep(
                 model.currentStep,
                 model.mosqueData.hasLadiesFacilities,
                 model.mosqueData.hasWudhuKhana,
                 model.changeLadiesValue,
-                model.changeWudhuValue)
+                model.changeWudhuValue),
           ];
 
-          return Column(
-            children: [
-              Expanded(
-                  child: model.complete
-                      ? Expanded(
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Confirm the data: "),
-                            verticalSpaceLarge,
-                            BusyButton(
-                                title: "Submit",
-                                onPressed: () =>
-                                    print(model.mosqueData.toJson()))
-                          ],
-                        ))
-                      : Stepper(
-                          type: StepperType.vertical,
-                          steps: steps,
-                          currentStep: model.currentStep,
-                          onStepContinue: () => model.next(steps.length,
-                              name: mosqueNameController.text,
-                              location: mosqueLocationController.text),
-                          onStepCancel: model.cancel,
-                        ))
-            ],
+          return Scaffold(
+            body: Column(
+              children: [
+                Expanded(
+                    child: model.complete
+                        ? Expanded(
+                            child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Confirm the data: "),
+                                verticalSpaceLarge,
+                                BusyButton(
+                                    title: "Proceed to next step ",
+                                    onPressed: () =>
+                              model.navigateToPrayerTimesStep()) ],
+                            ),
+                          ))
+                        : Stepper(
+                            type: StepperType.vertical,
+                            steps: steps,
+                            currentStep: model.currentStep,
+                            onStepContinue: () => model.next(steps.length,
+                                name: mosqueNameController.text,
+                                location: mosqueLocationController.text),
+                            onStepCancel: model.cancel,
+                          ))
+              ],
+            ),
           );
         },
         viewModelBuilder: () => AddMosqueViewModel());

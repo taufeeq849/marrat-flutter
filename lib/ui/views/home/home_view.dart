@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
-import 'package:marrat/ui/views/navbar_views/add_mosque/add_mosque_view.dart';
+import 'package:marrat/ui/views/navbar_views/adding_info/info_view.dart';
 import 'package:marrat/ui/views/navbar_views/time_view/times_view.dart';
 import 'package:stacked/stacked.dart';
 
@@ -20,17 +20,14 @@ class HomeView extends StatelessWidget {
           body: getViewforIndex(model.currentIndex),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white, 
+            backgroundColor: Colors.white,
             unselectedItemColor: Colors.black,
             selectedItemColor: primaryColor,
             currentIndex: model.currentIndex,
             onTap: model.setIndex,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.view_agenda
-                  ),
-                  label: 'View Times'),
+                  icon: Icon(Icons.view_agenda), label: 'View Times'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.upload_outlined), label: 'Upload Mosque'),
             ],
@@ -46,7 +43,7 @@ class HomeView extends StatelessWidget {
       case 0:
         return TimesView();
       case 1:
-        return AddMosqueView();
+        return InfoView();
       default:
         return TimesView();
     }

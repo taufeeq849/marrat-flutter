@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:marrat/app/locator.dart';
+import 'package:marrat/app/router.gr.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/mosque/mosque_location.dart';
 import 'package:marrat/services/database/firestore_service.dart';
@@ -24,6 +25,8 @@ class AddMosqueViewModel extends BaseViewModel {
   GeocoderService _geocoderService = locator<GeocoderService>();
   FirestoreService _firestoreService = locator<FirestoreService>();
   GeoHashService _geoHashService = locator<GeoHashService>();
+  NavigationService _navigationService = locator<NavigationService>();
+
   String nameValidationMessage;
   String locationValidationMessage;
   changeLadiesValue(bool isSelected) {
@@ -77,6 +80,11 @@ class AddMosqueViewModel extends BaseViewModel {
           description: 'Failed to get coordinates, try again later',
           buttonTitle: 'Ok');
     }
+  }
+
+  navigateToPrayerTimesStep() {
+    return _navigationService.navigateTo(Routes.addPrayerTimesView,
+        arguments: AddPrayerTimesViewArguments(mosqueData: mosqueData));
   }
 
   submit() async {
