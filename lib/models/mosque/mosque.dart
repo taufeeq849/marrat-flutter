@@ -16,15 +16,16 @@ class Mosque {
   MosqueLocation location;
   bool hasLadiesFacilities;
   bool hasWudhuKhana;
-  Mosque({
-    this.mosqueName,
-    this.mosqueImageUrl = placeHolderImageUrl,
-    this.docID,
-    this.normalPrayerTimes,
-    this.abnormalPrayerTimes,
-    this.hasLadiesFacilities = false,
-    this.hasWudhuKhana = false,
-  });
+  String address;
+  Mosque(
+      {this.mosqueName,
+      this.mosqueImageUrl = placeHolderImageUrl,
+      this.docID,
+      this.normalPrayerTimes,
+      this.abnormalPrayerTimes,
+      this.hasLadiesFacilities = false,
+      this.hasWudhuKhana = false,
+      this.address});
 
   Mosque copyWith({
     String mosqueName,
@@ -56,6 +57,7 @@ class Mosque {
           abnormalPrayerTimes?.map((x) => x?.toMap())?.toList(),
       'hasLadiesFacilities': hasLadiesFacilities,
       'hasWudhuKhana': hasWudhuKhana,
+      'address': address,
     };
   }
 
@@ -72,6 +74,7 @@ class Mosque {
           map['abnormalPrayerTimes']?.map((x) => Prayer.fromMap(x))),
       hasLadiesFacilities: map['hasLadiesFacilities'],
       hasWudhuKhana: map['hasWudhuKhana'],
+      address: map['address'],
     );
   }
 

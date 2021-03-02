@@ -58,9 +58,7 @@ class AddMosqueView extends StatelessWidget {
           TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
                 controller: mosqueLocationController,
-                style: DefaultTextStyle.of(context)
-                    .style
-                    .copyWith(fontStyle: FontStyle.italic),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(border: OutlineInputBorder())),
             suggestionsCallback: (pattern) async {
               if (pattern != null) {

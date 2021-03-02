@@ -126,13 +126,31 @@ class AddPrayerTimesView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                          "You have succesfully added the data, please confirm the data: "),
+                          "You have succesfully added the data, please confirm the data:"),
                       verticalSpaceLarge,
+                      //TODO When you create the view for a mosque, add this in here as well as a edit button
+
                       Text(model.mosqueData.toString()),
-                      BusyButton(
-                          title: "Submit",
-                          busy: model.isLoading,
-                          onPressed: () async => model.submit())
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: BusyButton(
+                                title: "Submit",
+                                busy: model.isLoading,
+                                onPressed: () async => model.submit()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: BusyButton(
+                              title: "Edit",
+                              busy: model.isLoading,
+                              onPressed: () => model.edit(),
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   )
                 : Container(

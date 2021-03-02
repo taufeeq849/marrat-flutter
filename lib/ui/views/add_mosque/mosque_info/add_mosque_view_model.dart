@@ -68,6 +68,7 @@ class AddMosqueViewModel extends BaseViewModel {
   }
 
   getCoordinates(String address) async {
+    mosqueData.address = address;
     var result = await _geocoderService.getLatLngFromAddress(address);
 
     if (result is Coordinates) {

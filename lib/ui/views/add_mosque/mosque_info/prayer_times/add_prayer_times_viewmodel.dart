@@ -62,7 +62,7 @@ class AddPrayerTimesViewModel extends BaseViewModel {
   }
 
   next(int length, {String name, location}) {
-   /*  if (currentStep + 1 == abnormalTimesStep) {
+    /*  if (currentStep + 1 == abnormalTimesStep) {
       abnormalPrayers = normalPrayers;
     } */
     if (currentStep + 1 != length) {
@@ -84,6 +84,11 @@ class AddPrayerTimesViewModel extends BaseViewModel {
 
   goTo(int step) {
     currentStep = step;
+    notifyListeners();
+  }
+
+  edit() {
+    complete = false;
     notifyListeners();
   }
 }
