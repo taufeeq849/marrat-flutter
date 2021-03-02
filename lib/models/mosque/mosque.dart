@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:marrat/constants/constants.dart';
 
 import 'mosque_location.dart';
@@ -55,7 +56,6 @@ class Mosque {
           abnormalPrayerTimes?.map((x) => x?.toMap())?.toList(),
       'hasLadiesFacilities': hasLadiesFacilities,
       'hasWudhuKhana': hasWudhuKhana,
-      'geohash': location.toMap(),
     };
   }
 

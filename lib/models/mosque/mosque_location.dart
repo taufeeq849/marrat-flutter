@@ -26,7 +26,7 @@ class MosqueLocation {
 
   Map<String, dynamic> toMap() {
     return {
-      'geohash': geohash?.data.toString(),
+      'geohash': geohash?.data,
       'latitude': latitude,
       'longitude': longitude,
     };

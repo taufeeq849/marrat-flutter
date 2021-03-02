@@ -5,16 +5,10 @@ class FirestoreService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   Future<bool> uploadMosqueData(Mosque mosqueData) async {
     try {
-      await _firebaseFirestore
-          .collection('mosques')
-          .add(mosqueData.toMap())
-          .then((value) {
-        return true;
-      }).catchError((error) {
-        print(error.toString());
-        return false;
-      });
+      await _firebaseFirestore.collection('mosques').add(mosqueData.toMap());
+      return true;
     } catch (e) {
+      print(e.toString());
       return false;
     }
   }

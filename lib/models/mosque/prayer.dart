@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:marrat/app/locator.dart';
 import 'package:marrat/extensions/time_of_day.dart';
+import 'package:marrat/services/context_service.dart';
 
 class Prayer {
   String prayerName;
@@ -15,7 +17,6 @@ class Prayer {
   }) {
     if (prayerTime != null && adhanTime == null) {
       this.adhanTime = prayerTime.subtractMinutes(15);
-      print(this.adhanTime.toString());
     }
   }
 
@@ -31,11 +32,18 @@ class Prayer {
     );
   }
 
+  String formatTimeOfDay(TimeOfDay time) {
+    String initialTime = time.toString();
+    String formattedTime = initialTime.substring(
+        initialTime.indexOf('(') + 1, initialTime.lastIndexOf(')'));
+    return formattedTime;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'prayerName': prayerName,
-      'prayerTime': prayerTime?.toString(),
-      'adhanTime': adhanTime?.toString(),
+      'prayerTime': formatTimeOfDay(prayerTime),
+      'adhanTime': formatTimeOfDay(adhanTime)
     };
   }
 

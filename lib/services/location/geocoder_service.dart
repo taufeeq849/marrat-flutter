@@ -1,6 +1,5 @@
 import 'package:geocoder/geocoder.dart';
 
-
 class GeocoderService {
   getLatLngFromAddress(String address) async {
     try {

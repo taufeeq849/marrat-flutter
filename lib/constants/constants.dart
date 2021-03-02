@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marrat/models/mosque/prayer.dart';
 
-final int posts_limit = 10;
 const placeHolderImageUrl = 'https://i.imgur.com/sUFH1Aq.png';
 
 //List for prayers, manually hard coded at the moment:
@@ -30,4 +29,6 @@ Prayer jummah = Prayer(
   prayerName: 'jummah',
   prayerTime: TimeOfDay(hour: 12, minute: 30),
 );
-List<Prayer> prayers = [fajr, zuhr, asr, maghrib, esha, jummah];
+List<Prayer> defaultNormalPrayers = [fajr, zuhr, asr, maghrib, esha, jummah];
+
+List<Prayer> defaultAbnormalPrayers = [fajr, zuhr, asr, maghrib, esha, jummah];

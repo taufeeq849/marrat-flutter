@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/ui/views/add_mosque/mosque_info/prayer_times/add_prayer_times_viewmodel.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:stacked/stacked.dart';
 
@@ -134,30 +135,31 @@ class AddMosqueView extends StatelessWidget {
             body: Column(
               children: [
                 Expanded(
-                    child: model.complete
-                        ? Expanded(
-                            child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Confirm the data: "),
-                                verticalSpaceLarge,
-                                BusyButton(
-                                    title: "Proceed to next step ",
-                                    onPressed: () =>
-                              model.navigateToPrayerTimesStep()) ],
-                            ),
-                          ))
-                        : Stepper(
-                            type: StepperType.vertical,
-                            steps: steps,
-                            currentStep: model.currentStep,
-                            onStepContinue: () => model.next(steps.length,
-                                name: mosqueNameController.text,
-                                location: mosqueLocationController.text),
-                            onStepCancel: model.cancel,
-                          ))
+                    child:
+                        /*  model.complete
+                        ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Confirm the data: "),
+                            verticalSpaceLarge,
+                            BusyButton(
+                                title: "Proceed to next step ",
+                                onPressed: () =>
+                          model.navigateToPrayerTimesStep()) ],
+                        ),
+                          )
+                        : */
+                        Stepper(
+                  type: StepperType.vertical,
+                  steps: steps,
+                  currentStep: model.currentStep,
+                  onStepContinue: () => model.next(steps.length,
+                      name: mosqueNameController.text,
+                      location: mosqueLocationController.text),
+                  onStepCancel: model.cancel,
+                ))
               ],
             ),
           );

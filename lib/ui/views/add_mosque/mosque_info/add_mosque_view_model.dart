@@ -29,6 +29,10 @@ class AddMosqueViewModel extends BaseViewModel {
 
   String nameValidationMessage;
   String locationValidationMessage;
+  static const int imageStep = 0;
+  static const int nameStep = 1;
+  static const int locationStep = 2;
+  static const int ammenitiesStep = 3;
   changeLadiesValue(bool isSelected) {
     mosqueData.hasLadiesFacilities = isSelected;
     notifyListeners();
@@ -82,11 +86,6 @@ class AddMosqueViewModel extends BaseViewModel {
     }
   }
 
-  navigateToPrayerTimesStep() {
-    return _navigationService.navigateTo(Routes.addPrayerTimesView,
-        arguments: AddPrayerTimesViewArguments(mosqueData: mosqueData));
-  }
-
   submit() async {
     bool result = await _firestoreService.uploadMosqueData(mosqueData);
     if (result is bool && result) {
@@ -109,16 +108,17 @@ class AddMosqueViewModel extends BaseViewModel {
       case 0:
         goTo(currentStep + 1);
         break;
+      //Name Step
       case 1:
         if (name?.length > 0) {
           mosqueData.mosqueName = name;
-
           goTo(currentStep + 1);
         } else {
           nameValidationMessage = "Name is required";
         }
         break;
       case 2:
+        //Add Location Step
         if (location?.length > 0) {
           getCoordinates(location);
           goTo(currentStep + 1);
@@ -127,7 +127,14 @@ class AddMosqueViewModel extends BaseViewModel {
         }
         break;
       default:
-        currentStep + 1 != length ? goTo(currentStep + 1) : complete = true;
+        if (currentStep + 1 != length) {
+          goTo(currentStep + 1);
+        } else {
+          //When the form is complete
+          complete = true;
+          return _navigationService.navigateTo(Routes.addPrayerTimesView,
+              arguments: AddPrayerTimesViewArguments(mosqueData: mosqueData));
+        }
         break;
     }
     notifyListeners();
