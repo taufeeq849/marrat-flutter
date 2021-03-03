@@ -25,7 +25,8 @@ class Mosque {
       this.abnormalPrayerTimes,
       this.hasLadiesFacilities = false,
       this.hasWudhuKhana = false,
-      this.address});
+      this.address,
+      this.location});
 
   Mosque copyWith({
     String mosqueName,
@@ -58,6 +59,7 @@ class Mosque {
       'hasLadiesFacilities': hasLadiesFacilities,
       'hasWudhuKhana': hasWudhuKhana,
       'address': address,
+      'location': location.toMap(),
     };
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/ui/views/add_mosque/mosque_info/prayer_times/add_prayer_times_viewmodel.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:stacked/stacked.dart';
@@ -19,14 +20,20 @@ class AddMosqueView extends StatelessWidget {
   TextEditingController mosqueLocationController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Step getImageStep(selectedIndex, imageUrl, uploadImage) {
+  Step getImageStep(bool isBusy, selectedIndex, imageUrl, uploadImage) {
     return Step(
         isActive: selectedIndex == 0,
         content: Column(
           children: [
-            ImageViewer(
-              imgUrl: imageUrl,
-            ),
+            isBusy
+                ? Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  )
+                : ImageViewer(
+                    imgUrl: imageUrl,
+                  ),
             BusyButton(
                 title: "Upload a picture (Optional)",
                 onPressed: () async {
@@ -115,8 +122,8 @@ class AddMosqueView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         builder: (context, AddMosqueViewModel model, child) {
           List<Step> steps = [
-            getImageStep(model.currentStep, model.mosqueData.mosqueImageUrl,
-                model.uploadImage),
+            getImageStep(model.isBusy, model.currentStep,
+                model.mosqueData.mosqueImageUrl, model.uploadImage),
             getNameStep(model.currentStep, mosqueNameController,
                 model.nameValidationMessage),
             getLocationStep(model.currentStep, model.getAutocompleteSuggestions,

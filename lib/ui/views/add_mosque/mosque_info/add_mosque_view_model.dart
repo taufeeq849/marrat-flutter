@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:marrat/app/locator.dart';
 import 'package:marrat/app/router.gr.dart';
@@ -10,7 +8,7 @@ import 'package:marrat/services/database/firestore_service.dart';
 import 'package:marrat/services/images/image_picker.dart';
 import 'package:marrat/services/location/autocomplete_service.dart';
 import 'package:marrat/services/location/geocoder_service.dart';
-import 'package:marrat/services/location/geohash_service.dart';
+import 'package:marrat/services/location/geoflutterfire_service.dart';
 import 'package:marrat/services/storage/firebase_storage_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -24,7 +22,7 @@ class AddMosqueViewModel extends BaseViewModel {
   AutocompleteService _autocompleteService = locator<AutocompleteService>();
   GeocoderService _geocoderService = locator<GeocoderService>();
   FirestoreService _firestoreService = locator<FirestoreService>();
-  GeoHashService _geoHashService = locator<GeoHashService>();
+  GeoFlutterFireService _geoHashService = locator<GeoFlutterFireService>();
   NavigationService _navigationService = locator<NavigationService>();
 
   String nameValidationMessage;
@@ -45,6 +43,7 @@ class AddMosqueViewModel extends BaseViewModel {
 
   uploadImage() async {
     var image = await _imagePickerService.pickImage();
+    setBusy(true);
     if (image is File) {
       var downloadUrl = await _firebaseStorageService.uploadImage(image);
       if (downloadUrl == null) {
@@ -52,6 +51,7 @@ class AddMosqueViewModel extends BaseViewModel {
             title: 'Error', description: downloadUrl, buttonTitle: 'OK');
       }
       mosqueData.mosqueImageUrl = downloadUrl;
+      setBusy(false); 
       notifyListeners();
       return;
     }

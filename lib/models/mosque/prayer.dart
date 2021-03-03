@@ -49,13 +49,22 @@ class Prayer {
 
   factory Prayer.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-
     return Prayer(
       //TODO Figure out how to convert the time of day from the map, depending on how it is stored.
       prayerName: map['prayerName'],
-      prayerTime: map['prayerTime'],
-      adhanTime: map['adhanTime'],
+      prayerTime: TimeOfDay(
+          hour: int.parse(map['prayerTime'].split(":")[0]),
+          minute: int.parse(map['prayerTime'].split(":")[1])),
+      adhanTime: TimeOfDay(
+          hour: int.parse(map['adhanTime'].split(":")[0]),
+          minute: int.parse(map['adhanTime'].split(":")[1])),
     );
+  }
+
+  TimeOfDay timeConvert(String s) {
+    TimeOfDay time = TimeOfDay(
+        hour: int.parse(s.split(":")[0]), minute: int.parse(s.split(":")[1]));
+    return time;
   }
 
   String toJson() => json.encode(toMap());

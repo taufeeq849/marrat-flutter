@@ -36,7 +36,6 @@ class MosqueLocation {
     if (map == null) return null;
 
     return MosqueLocation(
-      //TODO  geohash: var.fromMap(map['geohash']),
       latitude: map['latitude'],
       longitude: map['longitude'],
     );
