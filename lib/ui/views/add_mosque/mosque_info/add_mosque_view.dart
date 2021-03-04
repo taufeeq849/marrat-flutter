@@ -68,7 +68,7 @@ class AddMosqueView extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(border: OutlineInputBorder())),
             suggestionsCallback: (pattern) async {
-              if (pattern != null) {
+              if (pattern != null && pattern.length > 0 ) {
                 return await getAutoCompleteSuggestions(pattern);
               }
               return [];

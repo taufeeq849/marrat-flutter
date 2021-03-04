@@ -1,24 +1,46 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/styles/app_colors.dart';
+import 'package:marrat/styles/ui_helpers.dart';
 
 class MosqueTile extends StatelessWidget {
   String imageUrl;
   String mosqueName;
   String distance;
-  MosqueTile({this.imageUrl, this.mosqueName, this.distance});
-  planetCard() => new Container(
-        height: 124.0,
+  String address;
+  MosqueTile({this.imageUrl, this.mosqueName, this.distance, this.address});
+  mosqueCard() => new Container(
         child: SizedBox(
           width: double.infinity,
-          child: Column(
-            children: [
-              Text(
-                mosqueName,
-                style: TextStyle(color: Colors.white),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: Column(
+              children: [
+                Flexible(
+                  child: Text(
+                    mosqueName,
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                verticalSpaceSmall,
+                Flexible(
+                  child: Text(
+                    address,
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                verticalSpaceMedium,
+                Flexible(
+                  child: Text(
+                    distance,
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         margin: new EdgeInsets.only(left: 46.0),
@@ -36,7 +58,7 @@ class MosqueTile extends StatelessWidget {
         ),
       );
 
-  Widget planetThumbnail() {
+  Widget imageThumbnail() {
     return Container(
       margin: new EdgeInsets.symmetric(vertical: 16.0),
       alignment: FractionalOffset.centerLeft,
@@ -65,8 +87,8 @@ class MosqueTile extends StatelessWidget {
         ),
         child: new Stack(
           children: <Widget>[
-            planetCard(),
-            planetThumbnail(),
+            mosqueCard(),
+            imageThumbnail(),
           ],
         ));
   }

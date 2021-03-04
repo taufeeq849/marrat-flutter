@@ -17,6 +17,8 @@ class Mosque {
   bool hasLadiesFacilities;
   bool hasWudhuKhana;
   String address;
+  double distance;
+
   Mosque(
       {this.mosqueName,
       this.mosqueImageUrl = placeHolderImageUrl,
@@ -26,6 +28,7 @@ class Mosque {
       this.hasLadiesFacilities = false,
       this.hasWudhuKhana = false,
       this.address,
+      this.distance,
       this.location});
 
   Mosque copyWith({
@@ -63,21 +66,21 @@ class Mosque {
     };
   }
 
-  factory Mosque.fromMap(Map<String, dynamic> map) {
+  factory Mosque.fromMap(Map<String, dynamic> map, {double distance = -1000}) {
     if (map == null) return null;
 
     return Mosque(
-      mosqueName: map['mosqueName'],
-      mosqueImageUrl: map['mosqueImageUrl'],
-      docID: map['docID'],
-      normalPrayerTimes: List<Prayer>.from(
-          map['normalPrayerTimes']?.map((x) => Prayer.fromMap(x))),
-      abnormalPrayerTimes: List<Prayer>.from(
-          map['abnormalPrayerTimes']?.map((x) => Prayer.fromMap(x))),
-      hasLadiesFacilities: map['hasLadiesFacilities'],
-      hasWudhuKhana: map['hasWudhuKhana'],
-      address: map['address'],
-    );
+        mosqueName: map['mosqueName'],
+        mosqueImageUrl: map['mosqueImageUrl'],
+        docID: map['docID'],
+        normalPrayerTimes: List<Prayer>.from(
+            map['normalPrayerTimes']?.map((x) => Prayer.fromMap(x))),
+        abnormalPrayerTimes: List<Prayer>.from(
+            map['abnormalPrayerTimes']?.map((x) => Prayer.fromMap(x))),
+        hasLadiesFacilities: map['hasLadiesFacilities'],
+        hasWudhuKhana: map['hasWudhuKhana'],
+        address: map['address'],
+        distance: distance);
   }
 
   String toJson() => json.encode(toMap());

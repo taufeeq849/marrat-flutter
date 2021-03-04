@@ -15,7 +15,6 @@ class AutocompleteService {
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
-        print(result);
         // compose suggestions in a list
         return result['predictions']
             .map<Suggestion>((p) =>

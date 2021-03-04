@@ -42,10 +42,9 @@ class AddPrayerTimesViewModel extends BaseViewModel {
   }
 
   Future submit() async {
-    setLoading(true);
-    //  var result = await _firestoreService.uploadMosqueData(mosqueData);
-    bool result = false;
-    setLoading(false);
+    setBusy(true);
+    var result = await _firestoreService.uploadMosqueData(mosqueData);
+    setBusy(false);
     if (result) {
       await _dialogService.showDialog(
           title: 'Success',

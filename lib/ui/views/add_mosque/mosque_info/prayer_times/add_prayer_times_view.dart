@@ -137,18 +137,18 @@ class AddPrayerTimesView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: BusyButton(
-                                title: "Submit",
-                                busy: model.isLoading,
-                                onPressed: () async => model.submit()),
+                              title: "Edit",
+                              busy: model.isBusy,
+                              onPressed: () => model.edit(),
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: BusyButton(
-                              title: "Edit",
-                              busy: model.isLoading,
-                              onPressed: () => model.edit(),
-                            ),
-                          )
+                                title: "Submit",
+                                busy: model.isBusy,
+                                onPressed: () async => model.submit()),
+                          ),
                         ],
                       )
                     ],
