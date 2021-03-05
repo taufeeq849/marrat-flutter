@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/input_field.dart';
-import 'package:marrat/ui/widgets/mosque_tile.dart';
+import 'package:marrat/ui/widgets/mosque_card.dart';
 import 'package:stacked/stacked.dart';
 
 import 'times_viewmodel.dart';
@@ -30,7 +28,6 @@ class TimesView extends StatelessWidget {
   Widget _buildListView(TimesViewModel model) {
     bool isSearch = model.searchActive;
     List<Mosque> mosques = isSearch ? model.searchMosques : model.data;
-
     if (isSearch && model.busy(model.searchMosques)) {
       return Center(
         child: Text('Searching for mosques'),
@@ -43,11 +40,16 @@ class TimesView extends StatelessWidget {
         itemBuilder: (context, index) {
           if (mosques.length > 0) {
             Mosque mosque = mosques[index];
-            return MosqueTile(
-              imageUrl: mosque.mosqueImageUrl,
-              mosqueName: mosque.mosqueName,
-              distance: isSearch ? '' : mosque.distance.toString() + ' km',
-              address: mosque.address,
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: MosqueCard(
+                imageUrl: mosque.mosqueImageUrl,
+                mosqueName: mosque.mosqueName,
+                distance: mosque.distance,
+                address: mosque.address,
+                onTap: () => model.navigateToMosqueView(mosque),
+                isSearch: model.searchActive,
+              ),
             );
           } else {
             return Center(
@@ -63,18 +65,11 @@ class TimesView extends StatelessWidget {
     return ViewModelBuilder<TimesViewModel>.reactive(
         fireOnModelReadyOnce: true,
         builder: (context, TimesViewModel model, child) => model.isBusy
-            ? Column(children: [
-                _buildSearchBox(model),
-                verticalSpaceMedium,
-                CircularProgressIndicator()
-              ])
+            ? Column(
+                children: [_buildSearchBox(model), CircularProgressIndicator()])
             : SingleChildScrollView(
                 child: Column(
-                  children: [
-                    _buildSearchBox(model),
-                    verticalSpaceLarge,
-                    _buildListView(model)
-                  ],
+                  children: [_buildSearchBox(model), _buildListView(model)],
                 ),
               ),
         viewModelBuilder: () => TimesViewModel());

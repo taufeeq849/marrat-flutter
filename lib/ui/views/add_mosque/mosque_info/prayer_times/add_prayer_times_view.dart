@@ -5,6 +5,7 @@ import 'package:marrat/models/mosque/prayer.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
+import 'package:marrat/ui/widgets/times/table_data_grid.dart';
 import 'package:stacked/stacked.dart';
 
 import 'add_prayer_times_viewmodel.dart';
@@ -37,25 +38,12 @@ class AddPrayerTimesView extends StatelessWidget {
         children: [
           Text("Add normal prayer times: "),
           verticalSpaceMedium,
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: prayers.length,
-              itemBuilder: (BuildContext context, int index) {
-                Prayer prayer = prayers[index];
-                return AddTimeWidget(
-                  adhanTime: prayer.adhanTime,
-                  onAdhanTimePressed: () async {
-                    showTimeOfDayPicker(
-                        model.setTimeForPrayer, context, prayer, true);
-                  },
-                  onPrayerTimePressed: () async {
-                    showTimeOfDayPicker(
-                        model.setTimeForPrayer, context, prayer, false);
-                  },
-                  prayerName: prayer.prayerName,
-                  prayerTime: prayer.prayerTime,
-                );
-              })
+          TimesDataGrid(
+            prayers: prayers,
+            onPrayerTimePressed: showTimeOfDayPicker,  
+            setPrayerTime: model.setTimeForPrayer,
+            isEdit: true,
+          )
         ],
       ),
       title: Text("Normal Prayer Times"),
@@ -117,7 +105,7 @@ class AddPrayerTimesView extends StatelessWidget {
           List<Step> steps = [
             infoStep(model.currentStep),
             getNormalPrayerTimeStep(model, model.currentStep, context),
-            getAbnormalTimesStep(model, model.currentStep, context)
+          //  getAbnormalTimesStep(model, model.currentStep, context)
           ];
           return Scaffold(
             body: model.complete

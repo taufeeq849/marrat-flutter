@@ -1,4 +1,5 @@
 import 'package:marrat/app/locator.dart';
+import 'package:marrat/app/router.gr.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/user/user_location.dart';
@@ -7,10 +8,12 @@ import 'package:marrat/services/database/mock_data_service.dart';
 import 'package:marrat/services/location/geoflutterfire_service.dart';
 import 'package:marrat/services/location/location_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class TimesViewModel extends FutureViewModel<List<Mosque>> {
   LocationService _locationService = locator<LocationService>();
   MockDataService _mockDataService = locator<MockDataService>();
+  NavigationService _navigationService = locator<NavigationService>();
   bool searchActive = false;
 
   GeoFlutterFireService _geoFlutterFireService =
@@ -43,7 +46,12 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
         searchMosques = result;
       }
       setBusyForObject(searchMosques, false);
-    } 
+    }
+  }
+
+  navigateToMosqueView(Mosque mosque) {
+    return _navigationService.navigateTo(Routes.specificMosqueView,
+        arguments: SpecificMosqueViewArguments(mosque: mosque));
   }
 
   @override

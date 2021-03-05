@@ -14,17 +14,20 @@ import '../ui/views/add_mosque/mosque_info/add_mosque_view.dart';
 import '../ui/views/add_mosque/mosque_info/prayer_times/add_prayer_times_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/landing_page/landing_page_view.dart';
+import '../ui/views/specific_mosque_view/specific_mosque_view.dart';
 
 class Routes {
   static const String landingPageView = '/';
   static const String homeView = '/home-view';
   static const String addMosqueView = '/add-mosque-view';
   static const String addPrayerTimesView = '/add-prayer-times-view';
+  static const String specificMosqueView = '/specific-mosque-view';
   static const all = <String>{
     landingPageView,
     homeView,
     addMosqueView,
     addPrayerTimesView,
+    specificMosqueView,
   };
 }
 
@@ -36,6 +39,7 @@ class Router extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.addMosqueView, page: AddMosqueView),
     RouteDef(Routes.addPrayerTimesView, page: AddPrayerTimesView),
+    RouteDef(Routes.specificMosqueView, page: SpecificMosqueView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -68,6 +72,18 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    SpecificMosqueView: (data) {
+      final args = data.getArgs<SpecificMosqueViewArguments>(
+        orElse: () => SpecificMosqueViewArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SpecificMosqueView(
+          key: args.key,
+          mosque: args.mosque,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -85,4 +101,11 @@ class HomeViewArguments {
 class AddPrayerTimesViewArguments {
   final Mosque mosqueData;
   AddPrayerTimesViewArguments({@required this.mosqueData});
+}
+
+/// SpecificMosqueView arguments holder class
+class SpecificMosqueViewArguments {
+  final Key key;
+  final Mosque mosque;
+  SpecificMosqueViewArguments({this.key, this.mosque});
 }
