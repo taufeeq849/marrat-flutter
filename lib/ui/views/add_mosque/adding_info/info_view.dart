@@ -17,7 +17,7 @@ class InfoView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Add a mosque for the benefit of your muslim brothers,",
+                      "Add a mosque for the benefit of your muslim brothers. ",
                       style: kcMainHeadingStyle,
                       textAlign: TextAlign.center,
                     ),

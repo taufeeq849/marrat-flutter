@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/styles/text_styles.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
@@ -42,7 +43,10 @@ class AddPrayerTimesView extends StatelessWidget {
       isActive: selectedIndex == 1,
       content: Column(
         children: [
-          Text('Tap on a prayer to edit the time'),
+          Text(
+            'Tap on a prayer to edit the time',
+            style: kcSubHeadingStyle(Colors.black),
+          ),
           verticalSpaceMedium,
           TimesDataGrid(
             prayers: prayers,
@@ -52,7 +56,7 @@ class AddPrayerTimesView extends StatelessWidget {
           )
         ],
       ),
-      title: Text("Normal Prayer Times"),
+      title: Text("Prayer Times"),
     );
   }
 
@@ -107,7 +111,14 @@ class AddPrayerTimesView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("You have succesfully added prayer times, please confirm:"),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "You have succesfully added prayer times, should you wish to change press edit otherwise submit:",
+            style: kcMainHeadingStyle,
+            textAlign: TextAlign.center,
+          ),
+        ),
         verticalSpaceLarge,
         //TODO When you create the view for a mosque, add this in here as well as a edit button
         TimesDataGrid(
@@ -115,24 +126,19 @@ class AddPrayerTimesView extends StatelessWidget {
           onPrayerTimePressed: () {},
           prayers: model.mosqueData.normalPrayerTimes,
         ),
+        verticalSpaceMedium,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BusyButton(
-                title: "Edit",
-                busy: false,
-                onPressed: () => model.edit(),
-              ),
+            BusyButton(
+              title: "Edit",
+              busy: false,
+              onPressed: () => model.edit(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BusyButton(
-                  title: "Submit",
-                  busy: model.isBusy,
-                  onPressed: () async => model.submit(isNewMosque)),
-            ),
+            BusyButton(
+                title: "Submit",
+                busy: model.isBusy,
+                onPressed: () async => model.submit(isNewMosque)),
           ],
         )
       ],
@@ -151,6 +157,14 @@ class AddPrayerTimesView extends StatelessWidget {
             getNormalPrayerTimeStep(model, model.currentStep, context),
           ];
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              iconTheme: IconThemeData(color: Colors.black),
+              title: Text(
+                'Add or edit prayer times',
+                style: kcBlackMainHeadingStyle,
+              ),
+            ),
             body: model.complete
                 ? _buildConfirmationUi(model)
                 : Container(

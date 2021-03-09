@@ -33,30 +33,33 @@ class TimesView extends StatelessWidget {
         child: Text('Searching for mosques'),
       );
     }
+    if (mosques.length == 0) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 50,
+        ),
+        child: Text(
+            "There are no mosques near your current location, try searching for a mosque"),
+      );
+    }
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: mosques.length,
         itemBuilder: (context, index) {
-          if (mosques.length > 0) {
-            Mosque mosque = mosques[index];
-            print(mosque.location);
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: MosqueCard(
-                imageUrl: mosque.mosqueImageUrl,
-                mosqueName: mosque.mosqueName,
-                distance: mosque.distance,
-                address: mosque.address,
-                onTap: () => model.showTimesBottomSheet(mosque),
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(
-                  "There are no mosques around you , search for one of them"),
-            );
-          }
+          Mosque mosque = mosques[index];
+          print(mosque.location);
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: MosqueCard(
+              imageUrl: mosque.mosqueImageUrl,
+              mosqueName: mosque.mosqueName,
+              distance: mosque.distance,
+              address: mosque.address,
+              onTap: () => model.showTimesBottomSheet(mosque),
+            ),
+          );
         });
   }
 
@@ -70,13 +73,14 @@ class TimesView extends StatelessWidget {
             : SingleChildScrollView(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text('Here are the closest mosques to your location',
+                        child: Text(
+                            'Here are the closest mosques to your location',
                             style: kcMainHeadingStyle),
                       ),
                       verticalSpaceMedium,

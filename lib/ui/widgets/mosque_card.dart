@@ -96,7 +96,7 @@ class MosqueCard extends StatelessWidget {
                               children: <Widget>[
                                 Text('${distance.toStringAsFixed(1)} km to you',
                                     textAlign: TextAlign.left,
-                                    style: kcMainHeadingStyle),
+                                    style: kcHeading1Style),
                               ],
                             ),
                           ),

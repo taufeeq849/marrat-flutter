@@ -10,23 +10,23 @@ Prayer fajr = Prayer(
   prayerTime: TimeOfDay(hour: 05, minute: 00),
 );
 Prayer zuhr = Prayer(
-  prayerName: 'zuhr',
+  prayerName: 'Zuhr',
   prayerTime: TimeOfDay(hour: 13, minute: 00),
 );
 Prayer asr = Prayer(
-  prayerName: 'asr',
+  prayerName: 'Asr',
   prayerTime: TimeOfDay(hour: 17, minute: 00),
 );
 Prayer maghrib = Prayer(
-  prayerName: 'maghrib',
+  prayerName: 'Maghrib',
   prayerTime: TimeOfDay(hour: 19, minute: 00),
 );
 Prayer esha = Prayer(
-  prayerName: 'esha',
+  prayerName: 'Esha',
   prayerTime: TimeOfDay(hour: 20, minute: 30),
 );
 Prayer jummah = Prayer(
-  prayerName: 'jummah',
+  prayerName: 'Jummah',
   prayerTime: TimeOfDay(hour: 12, minute: 30),
 );
 List<Prayer> defaultNormalPrayers = [fajr, zuhr, asr, maghrib, esha, jummah];

@@ -115,19 +115,25 @@ class AddMosqueView extends StatelessWidget {
       children: [
         Text(
           'Confirm your entry',
+          style: kcMainHeadingStyle,
         ),
         verticalSpaceMedium,
-        MosqueCard(
-          address: mosque.address,
-          imageUrl: mosque.mosqueImageUrl,
-          mosqueName: mosque.mosqueName,
-          onTap: () {},
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: MosqueCard(
+            address: mosque.address,
+            imageUrl: mosque.mosqueImageUrl,
+            mosqueName: mosque.mosqueName,
+            onTap: () {},
+          ),
         ),
         verticalSpaceLarge,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BusyButton(title: 'Edit', onPressed: () => model.editData()),
+            ElevatedButton(
+                onPressed: () => model.editData(),
+                child: Text('Edit', style: kcSubHeadingStyle(Colors.white))),
             BusyButton(
               title: 'Proceed ',
               onPressed: () => model.navigateToAddPrayerTimes(),
@@ -157,11 +163,11 @@ class AddMosqueView extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: true,
+              backgroundColor: Colors.white,
+              iconTheme: IconThemeData(color: Colors.black),
               title: Text(
-                
                 'Add a new mosque',
-                style: kcMainHeadingStyle,
+                style: kcBlackMainHeadingStyle,
               ),
             ),
             body: Column(
