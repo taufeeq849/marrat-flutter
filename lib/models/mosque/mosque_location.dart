@@ -34,11 +34,10 @@ class MosqueLocation {
 
   factory MosqueLocation.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-
     return MosqueLocation(
-      latitude: map['latitude'],
-      longitude: map['longitude'],
-    );
+        latitude: map['latitude'],
+        longitude: map['longitude'],
+        geohash: GeoFirePoint(map['latitude'], map['longitude']));
   }
 
   String toJson() => json.encode(toMap());

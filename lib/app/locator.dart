@@ -25,4 +25,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => ImagePickerService());
   locator.registerLazySingleton(() => AutocompleteService());
   locator.registerLazySingleton(() => MockDataService());
+  locator.registerSingleton(BottomSheetService()); 
 }

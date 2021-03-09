@@ -41,9 +41,14 @@ class AddPrayerTimesViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future submit() async {
+  Future submit(bool isNewMosque) async {
     setBusy(true);
-    var result = await _firestoreService.uploadMosqueData(mosqueData);
+    var result; 
+    if (isNewMosque) {
+      result = await _firestoreService.uploadMosqueData(mosqueData);
+    } else {
+      result = await _firestoreService.editMosqueData(mosqueData);
+    }
     setBusy(false);
     if (result) {
       await _dialogService.showDialog(

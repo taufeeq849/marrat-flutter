@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:geocoder/geocoder.dart';
 import 'package:marrat/app/locator.dart';
 import 'package:marrat/app/router.gr.dart';
@@ -31,16 +32,6 @@ class AddMosqueViewModel extends BaseViewModel {
   static const int nameStep = 1;
   static const int locationStep = 2;
   static const int ammenitiesStep = 3;
-  changeLadiesValue(bool isSelected) {
-    mosqueData.hasLadiesFacilities = isSelected;
-    notifyListeners();
-  }
-
-  changeWudhuValue(bool isSelected) {
-    mosqueData.hasWudhuKhana = isSelected;
-    notifyListeners();
-  }
-
   uploadImage() async {
     var image = await _imagePickerService.pickImage();
     setBusy(true);
@@ -51,7 +42,7 @@ class AddMosqueViewModel extends BaseViewModel {
             title: 'Error', description: downloadUrl, buttonTitle: 'OK');
       }
       mosqueData.mosqueImageUrl = downloadUrl;
-      setBusy(false); 
+      setBusy(false);
       notifyListeners();
       return;
     }
@@ -67,14 +58,22 @@ class AddMosqueViewModel extends BaseViewModel {
     }
   }
 
+  navigateToAddPrayerTimes() {
+    return _navigationService.navigateTo(Routes.addPrayerTimesView,
+        arguments: AddPrayerTimesViewArguments(
+            isNewMosque: true, mosqueData: mosqueData));
+  }
+
   getCoordinates(String address) async {
     mosqueData.address = address;
+    setBusyForObject(mosqueData, true);
+
     var result = await _geocoderService.getLatLngFromAddress(address);
 
     if (result is Coordinates) {
       var geohash = _geoHashService.getGeoHashFromCoords(
           lat: result.latitude, long: result.longitude);
-
+      setBusyForObject(mosqueData, false);
       return mosqueData.location = MosqueLocation(
           geohash: geohash,
           latitude: result.latitude,
@@ -87,56 +86,26 @@ class AddMosqueViewModel extends BaseViewModel {
     }
   }
 
-  submit() async {
-    bool result = await _firestoreService.uploadMosqueData(mosqueData);
-    if (result is bool && result) {
-      return await _dialogService.showDialog(
-        title: 'Success',
-        description: 'You succesfully added a mosque, mashallah!',
-      );
-    } else {
-      return await _dialogService.showDialog(
-        title: 'Error',
-        description: 'Failed to add a mosque, try again later ',
-      );
-    }
-  }
-
   int currentStep = 0;
   bool complete = false;
-  next(int length, {String name, location}) {
-    switch (currentStep) {
-      case 0:
+  next(int length, {String name, location}) async {
+    if (currentStep == 1) {
+      if (name?.length > 0) {
+        mosqueData.mosqueName = name;
         goTo(currentStep + 1);
-        break;
-      //Name Step
-      case 1:
-        if (name?.length > 0) {
-          mosqueData.mosqueName = name;
-          goTo(currentStep + 1);
-        } else {
-          nameValidationMessage = "Name is required";
-        }
-        break;
-      case 2:
-        //Add Location Step
-        if (location?.length > 0) {
-          getCoordinates(location);
-          goTo(currentStep + 1);
-        } else {
-          locationValidationMessage = "Location is required";
-        }
-        break;
-      default:
-        if (currentStep + 1 != length) {
-          goTo(currentStep + 1);
-        } else {
-          //When the form is complete
-          complete = true;
-          return _navigationService.navigateTo(Routes.addPrayerTimesView,
-              arguments: AddPrayerTimesViewArguments(mosqueData: mosqueData));
-        }
-        break;
+      } else {
+        nameValidationMessage = "Name is required";
+      }
+    } else if (currentStep == 2) {
+      //Add Location Step
+      if (location?.length > 0) {
+        await getCoordinates(location);
+        complete = true;
+      } else {
+        locationValidationMessage = "Location is required";
+      }
+    } else {
+      currentStep + 1 != length ? goTo(currentStep + 1) : complete = true;
     }
     notifyListeners();
   }
@@ -151,5 +120,10 @@ class AddMosqueViewModel extends BaseViewModel {
   goTo(int step) {
     currentStep = step;
     notifyListeners();
+  }
+
+  editData() {
+    complete = false;
+    notifyListeners(); 
   }
 }

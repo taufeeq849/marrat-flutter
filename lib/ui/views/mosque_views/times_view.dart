@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/models/mosque/mosque.dart';
+import 'package:marrat/styles/text_styles.dart';
+import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/input_field.dart';
 import 'package:marrat/ui/widgets/mosque_card.dart';
 import 'package:stacked/stacked.dart';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'times_viewmodel.dart';
 
 class TimesView extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
   Widget _buildSearchBox(TimesViewModel model) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-      child: InputField(
-        controller: searchController,
-        placeholder: 'Search for mosques',
-        onChanged: (text) async {
-          if (text.isNotEmpty) {
-            await model.searchForMosques(text);
-          } else {
-            model.setSearchActive(false);
-          }
-        },
-      ),
+    return InputField(
+      controller: searchController,
+      placeholder: 'Search for mosques',
+      onChanged: (text) async {
+        if (text.isNotEmpty) {
+          await model.searchForMosques(text);
+        } else {
+          model.setSearchActive(false);
+        }
+      },
     );
   }
 
@@ -40,6 +40,7 @@ class TimesView extends StatelessWidget {
         itemBuilder: (context, index) {
           if (mosques.length > 0) {
             Mosque mosque = mosques[index];
+            print(mosque.location);
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: MosqueCard(
@@ -47,8 +48,7 @@ class TimesView extends StatelessWidget {
                 mosqueName: mosque.mosqueName,
                 distance: mosque.distance,
                 address: mosque.address,
-                onTap: () => model.navigateToMosqueView(mosque),
-                isSearch: model.searchActive,
+                onTap: () => model.showTimesBottomSheet(mosque),
               ),
             );
           } else {
@@ -68,8 +68,22 @@ class TimesView extends StatelessWidget {
             ? Column(
                 children: [_buildSearchBox(model), CircularProgressIndicator()])
             : SingleChildScrollView(
-                child: Column(
-                  children: [_buildSearchBox(model), _buildListView(model)],
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text('Here are the closest mosques to your location',
+                            style: kcMainHeadingStyle),
+                      ),
+                      verticalSpaceMedium,
+                      _buildSearchBox(model),
+                      _buildListView(model)
+                    ],
+                  ),
                 ),
               ),
         viewModelBuilder: () => TimesViewModel());

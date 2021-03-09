@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
-import 'package:marrat/ui/views/navbar_views/adding_info/info_view.dart';
-import 'package:marrat/ui/views/navbar_views/time_view/times_view.dart';
+import 'package:marrat/ui/views/add_mosque/adding_info/info_view.dart';
+import 'package:marrat/ui/views/mosque_views/times_view.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
@@ -29,7 +29,8 @@ class HomeView extends StatelessWidget {
               BottomNavigationBarItem(
                   icon: Icon(Icons.view_agenda), label: 'View Times'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.upload_outlined), label: 'Upload Mosque'),
+                  icon: Icon(Icons.upload_outlined),
+                  label: 'Upload a new Mosque'),
             ],
           ),
         );

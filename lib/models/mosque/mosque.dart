@@ -51,22 +51,22 @@ class Mosque {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({String paramDocID}) {
     return {
       'mosqueName': mosqueName,
       'mosqueImageUrl': mosqueImageUrl,
-      'docID': docID,
+      'docID': this.docID != null ? this.docID : paramDocID,
       'normalPrayerTimes': normalPrayerTimes?.map((x) => x?.toMap())?.toList(),
       'abnormalPrayerTimes':
           abnormalPrayerTimes?.map((x) => x?.toMap())?.toList(),
       'hasLadiesFacilities': hasLadiesFacilities,
       'hasWudhuKhana': hasWudhuKhana,
       'address': address,
-      'location': location.toMap(),
+      'location': location?.toMap(),
     };
   }
 
-  factory Mosque.fromMap(Map<String, dynamic> map, {double distance = -1000}) {
+  factory Mosque.fromMap(Map<String, dynamic> map, {double distance}) {
     if (map == null) return null;
 
     return Mosque(
@@ -80,6 +80,7 @@ class Mosque {
         hasLadiesFacilities: map['hasLadiesFacilities'],
         hasWudhuKhana: map['hasWudhuKhana'],
         address: map['address'],
+        location: MosqueLocation.fromMap(map['location']),
         distance: distance);
   }
 

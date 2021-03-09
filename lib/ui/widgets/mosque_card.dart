@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
+import 'package:marrat/styles/text_styles.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 
 class MosqueCard extends StatelessWidget {
@@ -8,17 +9,15 @@ class MosqueCard extends StatelessWidget {
   final String mosqueName;
   final String address;
   final double distance;
-  final bool isSearch;
-  final Function onTap; 
-  const MosqueCard(
-      {Key key,
-      this.onTap, 
-      this.imageUrl,
-      this.mosqueName,
-      this.address,
-      this.distance,
-      this.isSearch})
-      : super(key: key);
+  final Function onTap;
+  const MosqueCard({
+    Key key,
+    this.onTap,
+    this.imageUrl,
+    this.mosqueName,
+    this.address,
+    this.distance,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,33 +58,25 @@ class MosqueCard extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    mosqueName,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 22,
-                                    ),
-                                  ),
+                                  Text(mosqueName,
+                                      textAlign: TextAlign.left,
+                                      style: kcMainHeadingStyle),
                                   verticalSpaceSmall,
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Flexible(
-                                        child: Text(
-                                          address,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  Colors.grey.withOpacity(0.8)),
-                                        ),
+                                        child: Text(address,
+                                            style: kcSubHeadingStyle(
+                                                Colors.grey[500])),
                                       ),
                                       const SizedBox(
                                         width: 4,
                                       ),
                                       Icon(
-                                        Icons.location_city,
+                                        Icons.pin_drop,
                                         size: 12,
                                         color: primaryColor,
                                       ),
@@ -96,25 +87,19 @@ class MosqueCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        isSearch
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 16, top: 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      '${distance.toStringAsFixed(1)} km to you',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        if (distance != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16, top: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text('${distance.toStringAsFixed(1)} km to you',
+                                    textAlign: TextAlign.left,
+                                    style: kcMainHeadingStyle),
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),

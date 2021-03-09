@@ -14,55 +14,8 @@ class SpecificMosqueView extends StatelessWidget {
   final Mosque mosque;
 
   const SpecificMosqueView({Key key, this.mosque}) : super(key: key);
-  Widget _buildTempTimesColumn(BuildContext context) {
-    DataTable table = DataTable(columns: [
-      DataColumn(label: Text('Test')),
-      DataColumn(label: Text('Test'))
-    ], rows: [
-      DataRow(cells: [DataCell(Text('test')), DataCell(Text('test'))])
-    ]);
-
-    return table;
-  }
-
-  _getRows(
-    context,
-  ) {
-    List<DataRow> dataRows = [];
-    mosque.normalPrayerTimes.forEach((element) {
-      DataRow row = DataRow(cells: [
-        DataCell(Text(element.prayerName)),
-        DataCell(Text(element.adhanTime.format(context))),
-        DataCell(Text(element.prayerTime.format(context)))
-      ]);
-      dataRows.add(row);
-    });
-    return dataRows;
-  }
-
-  /*  DataRow _getSalahNames() {
-    List<DataCell> tableCells = mosque.normalPrayerTimes
-        .map((e) => DataCell(Text(e.prayerName)))
-        .toList();
-    DataRow dataRow = DataRow(cells: tableCells);
-    return dataRow;
-  }
-
-  DataRow _getAdhanTimes(context) {
-    List<DataCell> tableCells = mosque.normalPrayerTimes
-        .map((e) => DataCell(Text(e.adhanTime.format(context))))
-        .toList();
-    DataRow dataRow = DataRow(cells: tableCells);
-    return dataRow;
-  }
-
-  DataRow _getPrayerTimes(context) {
-    List<DataCell> tableCells = mosque.normalPrayerTimes
-        .map((e) => DataCell(Text(e.prayerTime.format(context))))
-        .toList();
-    DataRow dataRow = DataRow(cells: tableCells);
-    return dataRow;
-  } */
+ 
+ 
 
   Widget build(BuildContext context) {
     return ViewModelBuilder<SpecificMosqueViewModel>.reactive(
@@ -86,16 +39,14 @@ class SpecificMosqueView extends StatelessWidget {
                           address: mosque.address,
                           distance: mosque.distance,
                           imageUrl: mosque.mosqueImageUrl,
-                          isSearch: true,
                           mosqueName: mosque.mosqueName,
                           onTap: () {},
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(),
                             Text(
-                              'Times',
+                              'Times for this mosque',
                               style: TextStyle(fontSize: 14),
                             ),
                             TextButton(

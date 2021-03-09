@@ -5,14 +5,18 @@ import 'package:marrat/models/mosque/prayer.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
+import 'package:marrat/ui/widgets/mosque_card.dart';
 import 'package:marrat/ui/widgets/times/table_data_grid.dart';
 import 'package:stacked/stacked.dart';
 
 import 'add_prayer_times_viewmodel.dart';
 
 class AddPrayerTimesView extends StatelessWidget {
-  Mosque mosqueData;
-  AddPrayerTimesView({@required this.mosqueData});
+  final Mosque mosqueData;
+  final bool isNewMosque;
+
+  AddPrayerTimesView({@required this.mosqueData, @required this.isNewMosque});
+
   Step infoStep(
     selectedIndex,
   ) {
@@ -20,7 +24,9 @@ class AddPrayerTimesView extends StatelessWidget {
       isActive: selectedIndex == 0,
       content: Column(
         children: [
-          Text("One more step, add prayer times"),
+          isNewMosque
+              ? Text("One more step, add prayer times")
+              : Text('Edit the prayer times for ${mosqueData.mosqueName}'),
           verticalSpaceMedium,
         ],
       ),
@@ -36,11 +42,11 @@ class AddPrayerTimesView extends StatelessWidget {
       isActive: selectedIndex == 1,
       content: Column(
         children: [
-          Text("Add normal prayer times: "),
+          Text('Tap on a prayer to edit the time'),
           verticalSpaceMedium,
           TimesDataGrid(
             prayers: prayers,
-            onPrayerTimePressed: showTimeOfDayPicker,  
+            onPrayerTimePressed: showTimeOfDayPicker,
             setPrayerTime: model.setTimeForPrayer,
             isEdit: true,
           )
@@ -50,7 +56,8 @@ class AddPrayerTimesView extends StatelessWidget {
     );
   }
 
-  Step getAbnormalTimesStep(
+//TODO Think about adding configuration for sundays and public holiday times:
+/*   Step getAbnormalTimesStep(
       AddPrayerTimesViewModel model, selectedIndex, context) {
     List<Prayer> prayers = model.abnormalPrayers;
 
@@ -84,7 +91,7 @@ class AddPrayerTimesView extends StatelessWidget {
       title: Text("Prayer Times for sundays and public holidays"),
     );
   }
-
+ */
   void showTimeOfDayPicker(
       Function onTimeSelected, context, Prayer prayer, bool isAdhan) async {
     TimeOfDay result = await showTimePicker(
@@ -93,6 +100,43 @@ class AddPrayerTimesView extends StatelessWidget {
     if (result != null) {
       onTimeSelected(prayer, result, isAdhan);
     }
+  }
+
+  Widget _buildConfirmationUi(AddPrayerTimesViewModel model) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text("You have succesfully added prayer times, please confirm:"),
+        verticalSpaceLarge,
+        //TODO When you create the view for a mosque, add this in here as well as a edit button
+        TimesDataGrid(
+          isEdit: false,
+          onPrayerTimePressed: () {},
+          prayers: model.mosqueData.normalPrayerTimes,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BusyButton(
+                title: "Edit",
+                busy: false,
+                onPressed: () => model.edit(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BusyButton(
+                  title: "Submit",
+                  busy: model.isBusy,
+                  onPressed: () async => model.submit(isNewMosque)),
+            ),
+          ],
+        )
+      ],
+    );
   }
 
   @override
@@ -105,42 +149,10 @@ class AddPrayerTimesView extends StatelessWidget {
           List<Step> steps = [
             infoStep(model.currentStep),
             getNormalPrayerTimeStep(model, model.currentStep, context),
-          //  getAbnormalTimesStep(model, model.currentStep, context)
           ];
           return Scaffold(
             body: model.complete
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                          "You have succesfully added the data, please confirm the data:"),
-                      verticalSpaceLarge,
-                      //TODO When you create the view for a mosque, add this in here as well as a edit button
-
-                      Text(model.mosqueData.toString()),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: BusyButton(
-                              title: "Edit",
-                              busy: model.isBusy,
-                              onPressed: () => model.edit(),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: BusyButton(
-                                title: "Submit",
-                                busy: model.isBusy,
-                                onPressed: () async => model.submit()),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
+                ? _buildConfirmationUi(model)
                 : Container(
                     child: Stepper(
                     type: StepperType.vertical,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/styles/text_styles.dart';
 
 class TimesDataGrid extends StatelessWidget {
   final List<Prayer> prayers;
@@ -48,9 +49,18 @@ class TimesDataGrid extends StatelessWidget {
     return Container(
         child: DataTable(
       columns: [
-        DataColumn(label: Text('Salah')),
-        DataColumn(label: Text('Adhan')),
-        DataColumn(label: Text('Prayer'))
+        DataColumn(
+            label: Text(
+          'Salah',
+          style: kcSubHeadingStyle(Colors.black),
+        )),
+        DataColumn(
+            label: Text('Adhan', style: kcSubHeadingStyle(Colors.black))),
+        DataColumn(
+            label: Text(
+          'Prayer',
+          style: kcSubHeadingStyle(Colors.black),
+        ))
       ],
       rows: _getRows(context),
     ));

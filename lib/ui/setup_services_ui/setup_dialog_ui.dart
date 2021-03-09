@@ -3,7 +3,7 @@ import 'package:marrat/app/locator.dart';
 import 'package:marrat/enums/dialog_type.dart';
 import 'package:stacked_services/stacked_services.dart';
 
- setupDialogUi()  {
+/*  setupDialogUi()  {
   var dialogService = locator<DialogService>();
 
     dialogService.registerCustomDialogBuilder(
@@ -61,3 +61,4 @@ import 'package:stacked_services/stacked_services.dart';
 /*
 onTap: () =>
 dialogService.completeDialog(DialogResponse(confirmed: true)),*/
+ */

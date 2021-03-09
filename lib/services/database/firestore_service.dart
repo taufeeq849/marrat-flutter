@@ -10,8 +10,21 @@ class FirestoreService {
       locator<GeoFlutterFireService>();
   Future<bool> uploadMosqueData(Mosque mosqueData) async {
     try {
-      print("trying to add a new mosque");
-      await _firebaseFirestore.collection('mosques').add(mosqueData.toMap());
+      var docId = await _firebaseFirestore.collection('mosques').doc().id; 
+      await _firebaseFirestore.collection('mosques').doc(docId).set(mosqueData.toMap(paramDocID: docId));
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> editMosqueData(Mosque mosqueData) async {
+    try {
+      await _firebaseFirestore
+          .collection('mosques')
+          .doc(mosqueData.docID)
+          .update(mosqueData.toMap());
       return true;
     } catch (e) {
       print(e.toString());
@@ -22,8 +35,6 @@ class FirestoreService {
   getNearbyMosques({double userLat, double userLong}) async {
     Range range = _geoFlutterFireService.getGeohashRange(
         userLat: userLat, userLong: userLong, distance: mosqueRadius);
-    print(range.upper);
-    print(range.lower);
 
     QuerySnapshot querySnapshot =
         await _firebaseFirestore.collection('mosques').get();
@@ -35,18 +46,15 @@ class FirestoreService {
   }
 
   Future<List<Mosque>> searchForMosques(String query) async {
-
     var querySnapshot = await _firebaseFirestore
         .collection('mosques')
         .where(
           'mosqueName',
           isGreaterThanOrEqualTo: query,
         )
-  
         .where('mosqueName',
             isLessThanOrEqualTo: query.substring(0, query.length - 1) +
                 String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-     
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       List<Mosque> mosques = querySnapshot.docs.map((e) {

@@ -8,10 +8,10 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:marrat/ui/views/add_mosque/prayer_times/add_prayer_times_view.dart';
 
 import '../models/mosque/mosque.dart';
 import '../ui/views/add_mosque/mosque_info/add_mosque_view.dart';
-import '../ui/views/add_mosque/mosque_info/prayer_times/add_prayer_times_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/landing_page/landing_page_view.dart';
 import '../ui/views/specific_mosque_view/specific_mosque_view.dart';
@@ -68,7 +68,7 @@ class Router extends RouterBase {
     AddPrayerTimesView: (data) {
       final args = data.getArgs<AddPrayerTimesViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AddPrayerTimesView(mosqueData: args.mosqueData),
+        builder: (context) => AddPrayerTimesView(mosqueData: args.mosqueData, isNewMosque: args.isNewMosque,),
         settings: data,
       );
     },
@@ -100,7 +100,8 @@ class HomeViewArguments {
 /// AddPrayerTimesView arguments holder class
 class AddPrayerTimesViewArguments {
   final Mosque mosqueData;
-  AddPrayerTimesViewArguments({@required this.mosqueData});
+  AddPrayerTimesViewArguments( {@required this.isNewMosque , @required this.mosqueData});
+  final bool isNewMosque; 
 }
 
 /// SpecificMosqueView arguments holder class
