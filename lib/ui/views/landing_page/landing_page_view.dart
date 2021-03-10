@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
+import 'package:marrat/styles/text_styles.dart';
+import 'package:marrat/styles/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 import 'landing_page_viewmodel.dart';
@@ -15,6 +17,12 @@ class LandingPageView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Text(
+                  'Marrat, one stop shop for prayer times',
+                  style: kcMainHeadingStyle,
+                  textAlign: TextAlign.center,
+                ),
+                verticalSpaceMedium,
                 SizedBox(
                   width: 300,
                   height: 400,

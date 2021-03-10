@@ -91,7 +91,11 @@ class AddMosqueView extends StatelessWidget {
                     return [];
                   },
                   itemBuilder: (context, suggestion) {
-                    return Text(suggestion.address);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 2),
+                      child: Text(suggestion.address, style: kcSubHeadingStyle(Colors.black),),
+                    );
                   },
                   onSuggestionSelected: (suggestion) {
                     mosqueLocationController.text = suggestion.address;

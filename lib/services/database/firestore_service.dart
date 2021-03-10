@@ -10,8 +10,11 @@ class FirestoreService {
       locator<GeoFlutterFireService>();
   Future<bool> uploadMosqueData(Mosque mosqueData) async {
     try {
-      var docId = await _firebaseFirestore.collection('mosques').doc().id; 
-      await _firebaseFirestore.collection('mosques').doc(docId).set(mosqueData.toMap(paramDocID: docId));
+      var docId = await _firebaseFirestore.collection('mosques').doc().id;
+      await _firebaseFirestore
+          .collection('mosques')
+          .doc(docId)
+          .set(mosqueData.toMap(paramDocID: docId));
       return true;
     } catch (e) {
       print(e.toString());
@@ -32,17 +35,16 @@ class FirestoreService {
     }
   }
 
-  getNearbyMosques({double userLat, double userLong}) async {
-    Range range = _geoFlutterFireService.getGeohashRange(
-        userLat: userLat, userLong: userLong, distance: mosqueRadius);
-
-    QuerySnapshot querySnapshot =
-        await _firebaseFirestore.collection('mosques').get();
-
-    List<Mosque> mosques = querySnapshot.docs.map((e) {
-      return Mosque.fromMap(e.data());
-    }).toList();
-    return mosques;
+  Future<List<Mosque>> getAllMosques() async {
+    var querySnapshot =
+        await _firebaseFirestore.collection('mosques').limit(10).get();
+    if (querySnapshot.docs.isNotEmpty) {
+      List<Mosque> mosques = querySnapshot.docs.map((e) {
+        return Mosque.fromMap(e.data());
+      }).toList();
+      return mosques;
+    }
+    return [];
   }
 
   Future<List<Mosque>> searchForMosques(String query) async {

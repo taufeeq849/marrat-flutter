@@ -10,8 +10,9 @@ class SpecificMosqueViewModel extends BaseViewModel {
     return _navigationService.back();
   }
 
-  navigateToEditTimes( Mosque mosque) {
-    return _navigationService.navigateTo(Routes.addPrayerTimesView, arguments:AddPrayerTimesViewArguments(mosqueData: mosque) ); 
-    
+  navigateToEditTimes(Mosque mosque) {
+    return _navigationService.navigateTo(Routes.addPrayerTimesView,
+        arguments: AddPrayerTimesViewArguments(
+            mosqueData: mosque, isNewMosque: false));
   }
 }

@@ -24,7 +24,7 @@ class Mosque {
       this.mosqueImageUrl = placeHolderImageUrl,
       this.docID,
       this.normalPrayerTimes,
-      this.abnormalPrayerTimes,
+      this.abnormalPrayerTimes = const [],
       this.hasLadiesFacilities = false,
       this.hasWudhuKhana = false,
       this.address,

@@ -33,20 +33,21 @@ class TimesView extends StatelessWidget {
         child: Text('Searching for mosques'),
       );
     }
-    if (mosques.length == 0) {
+    if ( mosques == null || mosques?.length == 0) {
       return Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 50,
+          vertical: 100,
         ),
         child: Text(
-            "There are no mosques near your current location, try searching for a mosque"),
+
+            "There are no mosques near your current location, try searching for a mosque", style: kcMainHeadingStyle,),
       );
     }
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: mosques.length,
+        itemCount: mosques == null ? 0: mosques?.length,
         itemBuilder: (context, index) {
           Mosque mosque = mosques[index];
           print(mosque.location);
@@ -68,8 +69,15 @@ class TimesView extends StatelessWidget {
     return ViewModelBuilder<TimesViewModel>.reactive(
         fireOnModelReadyOnce: true,
         builder: (context, TimesViewModel model, child) => model.isBusy
-            ? Column(
-                children: [_buildSearchBox(model), CircularProgressIndicator()])
+            ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(
+                  'Fetching the nearest mosques to you...',
+                  textAlign: TextAlign.center,
+                  style: kcMainHeadingStyle,
+                ),
+                verticalSpaceLarge,
+                CircularProgressIndicator()
+              ])
             : SingleChildScrollView(
                 child: Padding(
                   padding:

@@ -20,7 +20,6 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
   NavigationService _navigationService = locator<NavigationService>();
   BottomSheetService _bottomSheetService = locator<BottomSheetService>();
   bool searchActive = false;
-
   GeoFlutterFireService _geoFlutterFireService =
       locator<GeoFlutterFireService>();
   FirestoreService _firestoreService = locator<FirestoreService>();
@@ -29,16 +28,20 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
   UserLocation userLocation;
 
   Future<List<Mosque>> initiliase() async {
-    print('initialising');
     var location = _locationService.currentLocation;
+    var result;
+
     if (location != null) {
       userLocation = location;
-      var result = await _geoFlutterFireService.getMosques(
+      result = await _geoFlutterFireService.getMosques(
           userLocation.latitude, userLocation.longitude, mosqueRadius);
-      if (result is List<Mosque>) {
-        return result;
-      }
+    } else {
+      result = await _firestoreService.getAllMosques();
     }
+    if (result is List<Mosque>) {
+      return result;
+    }
+
     return [];
   }
 
@@ -70,14 +73,12 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
   Future showTimesBottomSheet(
     Mosque mosque,
   ) async {
-    var sheetResponse = await _bottomSheetService.showCustomSheet(
+    await _bottomSheetService.showCustomSheet(
       isScrollControlled: true,
       variant: BottomSheetType.floating,
       title: 'Times for ${mosque.mosqueName}',
       customData: TimesBottomSheetArguments(
           mosque.normalPrayerTimes, () => navigateToEditTimesView(mosque)),
-      description:
-          'This sheet is a custom built bottom sheet UI that allows you to show it from any service or viewmodel.',
       mainButtonTitle: 'Edit the times',
       secondaryButtonTitle: 'Dismiss',
     );

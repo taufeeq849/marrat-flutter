@@ -15,9 +15,6 @@ class AddPrayerTimesViewModel extends BaseViewModel {
   FirestoreService _firestoreService = locator<FirestoreService>();
   bool isLoading = false;
   DialogService _dialogService = locator<DialogService>();
-  List<Prayer> normalPrayers = defaultNormalPrayers;
-
-  List<Prayer> abnormalPrayers = defaultAbnormalPrayers;
   NavigationService _navigationService = locator<NavigationService>();
   static const int infoStep = 0;
   static const int normalTimesStep = 1;
@@ -73,8 +70,6 @@ class AddPrayerTimesViewModel extends BaseViewModel {
       goTo(currentStep + 1);
     } else {
       complete = true;
-      mosqueData.normalPrayerTimes = normalPrayers;
-      mosqueData.abnormalPrayerTimes = abnormalPrayers;
     }
     notifyListeners();
   }

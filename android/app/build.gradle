@@ -40,13 +40,15 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            minifyEnabled false // Add these lines
+            shrinkResources false // Add these lines
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt') // Add these lines
         }
     }
 }

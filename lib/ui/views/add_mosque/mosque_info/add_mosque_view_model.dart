@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:geocoder/geocoder.dart';
 import 'package:marrat/app/locator.dart';
 import 'package:marrat/app/router.gr.dart';
+import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/mosque/mosque_location.dart';
 import 'package:marrat/services/database/firestore_service.dart';
@@ -59,6 +60,9 @@ class AddMosqueViewModel extends BaseViewModel {
   }
 
   navigateToAddPrayerTimes() {
+    if (mosqueData.normalPrayerTimes == null) {
+      mosqueData.normalPrayerTimes = defaultNormalPrayers;
+    }
     return _navigationService.navigateTo(Routes.addPrayerTimesView,
         arguments: AddPrayerTimesViewArguments(
             isNewMosque: true, mosqueData: mosqueData));
@@ -124,6 +128,6 @@ class AddMosqueViewModel extends BaseViewModel {
 
   editData() {
     complete = false;
-    notifyListeners(); 
+    notifyListeners();
   }
 }

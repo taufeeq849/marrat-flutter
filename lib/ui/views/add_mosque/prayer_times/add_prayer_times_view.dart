@@ -37,8 +37,8 @@ class AddPrayerTimesView extends StatelessWidget {
 
   Step getNormalPrayerTimeStep(
       AddPrayerTimesViewModel model, selectedIndex, context) {
-    List<Prayer> prayers = model.normalPrayers;
-
+      
+    List<Prayer> prayers = mosqueData.normalPrayerTimes;
     return Step(
       isActive: selectedIndex == 1,
       content: Column(
