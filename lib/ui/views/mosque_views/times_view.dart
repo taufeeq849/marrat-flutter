@@ -5,8 +5,6 @@ import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/input_field.dart';
 import 'package:marrat/ui/widgets/mosque_card.dart';
 import 'package:stacked/stacked.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 import 'times_viewmodel.dart';
 
 class TimesView extends StatelessWidget {
@@ -33,24 +31,24 @@ class TimesView extends StatelessWidget {
         child: Text('Searching for mosques'),
       );
     }
-    if ( mosques == null || mosques?.length == 0) {
+    if (mosques == null || mosques?.length == 0) {
       return Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 100,
         ),
         child: Text(
-
-            "There are no mosques near your current location, try searching for a mosque", style: kcMainHeadingStyle,),
+          "There are no mosques near your current location, try searching for a mosque",
+          style: kcMainHeadingStyle,
+        ),
       );
     }
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: mosques == null ? 0: mosques?.length,
+        itemCount: mosques == null ? 0 : mosques?.length,
         itemBuilder: (context, index) {
           Mosque mosque = mosques[index];
-          print(mosque.location);
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: MosqueCard(
@@ -80,17 +78,12 @@ class TimesView extends StatelessWidget {
               ])
             : SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                            'Here are the closest mosques to your location',
-                            style: kcMainHeadingStyle),
-                      ),
+                      Text('Here are the closest mosques to your location',
+                          style: kcMainHeadingStyle),
                       verticalSpaceMedium,
                       _buildSearchBox(model),
                       _buildListView(model)

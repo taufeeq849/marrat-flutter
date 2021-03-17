@@ -40,7 +40,6 @@ class MockDataService {
             hasLadiesFacilities: true,
             hasWudhuKhana: true,
             location: MosqueLocation(
-                geohash: geohash,
                 latitude: element.latitude,
                 longitude: element.longitude),
             mosqueImageUrl:

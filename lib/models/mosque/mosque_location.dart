@@ -7,10 +7,13 @@ class MosqueLocation {
   double latitude;
   double longitude;
   MosqueLocation({
-    this.geohash,
     this.latitude,
     this.longitude,
-  });
+  }) {
+    if (latitude != null && longitude != null) {
+      geohash = GeoFirePoint(latitude, longitude);
+    }
+  }
 
   MosqueLocation copyWith({
     var geohash,
@@ -18,7 +21,6 @@ class MosqueLocation {
     double longitude,
   }) {
     return MosqueLocation(
-      geohash: geohash ?? this.geohash,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );
@@ -35,9 +37,9 @@ class MosqueLocation {
   factory MosqueLocation.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
     return MosqueLocation(
-        latitude: map['latitude'],
-        longitude: map['longitude'],
-        geohash: GeoFirePoint(map['latitude'], map['longitude']));
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+    );
   }
 
   String toJson() => json.encode(toMap());

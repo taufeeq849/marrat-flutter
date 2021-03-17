@@ -3,6 +3,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/models/mosque/prayer.dart';
+import 'package:marrat/services/location/autocomplete_service.dart';
 import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/styles/text_styles.dart';
 import 'package:marrat/ui/widgets/add_time_widget.dart';
@@ -22,9 +23,10 @@ class AddMosqueView extends StatelessWidget {
   TextEditingController mosqueLocationController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Step getImageStep(bool isBusy, selectedIndex, imageUrl, uploadImage) {
+  Step getImageStep(AddMosqueViewModel model, bool isBusy, selectedIndex,
+      imageUrl, uploadImage) {
     return Step(
-        isActive: selectedIndex == 0,
+        isActive: selectedIndex == model.imageStep,
         content: Column(
           children: [
             isBusy
@@ -46,26 +48,46 @@ class AddMosqueView extends StatelessWidget {
         title: Text("Image"));
   }
 
-  Step getNameStep(selectedIndex, mosqueNameController, validationMessage) {
+  Step getNameStep(selectedIndex, AddMosqueViewModel model, validationMessage) {
     return Step(
         title: const Text("Name"),
-        isActive: selectedIndex == 1,
-        content: InputField(
-            validationMessage:
-                validationMessage == null ? null : validationMessage,
-            controller: mosqueNameController,
-            placeholder: "Mosque Name"));
+        isActive: selectedIndex == model.nameStep,
+        content: TypeAheadField(
+          textFieldConfiguration: TextFieldConfiguration(
+              controller: mosqueLocationController,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(border: OutlineInputBorder())),
+          suggestionsCallback: (pattern) async {
+            if (pattern != null && pattern.length > 0) {
+              return await model.getPlaceSuggestions(pattern);
+            }
+            return [];
+          },
+          itemBuilder: (context, suggestion) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+              child: Text(
+                suggestion.name,
+                style: kcSubHeadingStyle(Colors.black),
+              ),
+            );
+          },
+          onSuggestionSelected: (suggestion) {
+            model.onPlaceSelected(suggestion);
+          },
+        ));
   }
 
   Step getLocationStep(
       bool isBusy,
       selectedIndex,
+      AddMosqueViewModel model,
       Function getAutoCompleteSuggestions,
       String locationValidationMessage,
       context) {
     return Step(
       title: Text("Location"),
-      isActive: selectedIndex == 2,
+      isActive: selectedIndex == model.locationStep,
       content: Column(
         children: [
           isBusy
@@ -94,7 +116,10 @@ class AddMosqueView extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 2),
-                      child: Text(suggestion.address, style: kcSubHeadingStyle(Colors.black),),
+                      child: Text(
+                        suggestion.address,
+                        style: kcSubHeadingStyle(Colors.black),
+                      ),
                     );
                   },
                   onSuggestionSelected: (suggestion) {
@@ -115,37 +140,49 @@ class AddMosqueView extends StatelessWidget {
 
   Widget getConfirmationUI(AddMosqueViewModel model) {
     Mosque mosque = model.mosqueData;
-    return Column(
-      children: [
-        Text(
-          'Confirm your entry',
-          style: kcMainHeadingStyle,
-        ),
-        verticalSpaceMedium,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: MosqueCard(
-            address: mosque.address,
-            imageUrl: mosque.mosqueImageUrl,
-            mosqueName: mosque.mosqueName,
-            onTap: () {},
-          ),
-        ),
-        verticalSpaceLarge,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-                onPressed: () => model.editData(),
-                child: Text('Edit', style: kcSubHeadingStyle(Colors.white))),
-            BusyButton(
-              title: 'Proceed ',
-              onPressed: () => model.navigateToAddPrayerTimes(),
-            )
-          ],
-        )
-      ],
-    );
+    return model.busy(mosque)
+        ? Column(
+            children: [
+              Text(
+                'Fetching mosque data',
+                style: kcMainHeadingStyle,
+              ),
+              verticalSpaceMedium,
+              CircularProgressIndicator(),
+            ],
+          )
+        : Column(
+            children: [
+              Text(
+                'Confirm your entry',
+                style: kcMainHeadingStyle,
+              ),
+              verticalSpaceMedium,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: MosqueCard(
+                  address: mosque.address,
+                  imageUrl: mosque.mosqueImageUrl,
+                  mosqueName: mosque.mosqueName,
+                  onTap: () {},
+                ),
+              ),
+              verticalSpaceLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      onPressed: () => model.editData(),
+                      child:
+                          Text('Edit', style: kcSubHeadingStyle(Colors.white))),
+                  BusyButton(
+                    title: 'Proceed ',
+                    onPressed: () => model.navigateToAddPrayerTimes(),
+                  )
+                ],
+              )
+            ],
+          );
   }
 
   @override
@@ -153,13 +190,13 @@ class AddMosqueView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         builder: (context, AddMosqueViewModel model, child) {
           List<Step> steps = [
-            getImageStep(model.isBusy, model.currentStep,
+            getNameStep(model.currentStep, model, model.nameValidationMessage),
+            getImageStep(model, model.isBusy, model.currentStep,
                 model.mosqueData.mosqueImageUrl, model.uploadImage),
-            getNameStep(model.currentStep, mosqueNameController,
-                model.nameValidationMessage),
             getLocationStep(
                 model.busy(model.mosqueData),
                 model.currentStep,
+                model,
                 model.getAutocompleteSuggestions,
                 model.locationValidationMessage,
                 context),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 
 class GeoFlutterFireService {
@@ -17,7 +18,11 @@ class GeoFlutterFireService {
     String field = 'location.geohash';
     Stream<List<DocumentSnapshot>> stream = geo
         .collection(collectionRef: collectionReference)
-        .within(center: center, radius: radius, field: field);
+        .within(
+            center: center,
+            radius: mosqueRadius,
+            field: field,
+            strictMode: true);
     List<DocumentSnapshot> documents = await stream.first;
     if (documents.isNotEmpty) {
       List<Mosque> mosques = documents.map((e) {

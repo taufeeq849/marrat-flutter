@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:marrat/models/mosque/prayer.dart';
 
 const placeHolderImageUrl = 'https://i.imgur.com/sUFH1Aq.png';
-double mosqueRadius = 10;
+//searching distance for mosque radius; 
+double mosqueRadius = 20;
 //List for prayers, manually hard coded at the moment:
 Prayer fajr = Prayer(
   prayerName: 'Fajr',

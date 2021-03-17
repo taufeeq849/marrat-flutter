@@ -29,34 +29,55 @@ class AddMosqueViewModel extends BaseViewModel {
 
   String nameValidationMessage;
   String locationValidationMessage;
-  static const int imageStep = 0;
-  static const int nameStep = 1;
-  static const int locationStep = 2;
-  static const int ammenitiesStep = 3;
   uploadImage() async {
     var image = await _imagePickerService.pickImage();
     setBusy(true);
     if (image is File) {
       var downloadUrl = await _firebaseStorageService.uploadImage(image);
       if (downloadUrl == null) {
+        setBusy(false);
         return await _dialogService.showDialog(
             title: 'Error', description: downloadUrl, buttonTitle: 'OK');
       }
       mosqueData.mosqueImageUrl = downloadUrl;
       setBusy(false);
-      notifyListeners();
       return;
     }
+    setBusy(false);
     return await _dialogService.showDialog(
         title: 'Error', description: image, buttonTitle: 'OK');
   }
 
   getAutocompleteSuggestions(String text) async {
     var suggestions =
-        await _autocompleteService.getSuggestions(queryText: text);
-    if (suggestions is List<Suggestion>) {
+        await _autocompleteService.getLocationSuggestions(queryText: text);
+    if (suggestions is List<LocationSuggestion>) {
       return suggestions;
     }
+    return [];
+  }
+
+  getPlaceSuggestions(String queryText) async {
+    if (queryText?.length > 2) {
+      var suggestions =
+          await _autocompleteService.getPlaceSuggestionsByName(queryText);
+      if (suggestions is List<PlaceSuggestion> && suggestions.length > 0) {
+        return suggestions;
+      }
+    }
+    return [];
+  }
+
+  onPlaceSelected(PlaceSuggestion placeSuggestion) async {
+    if (placeSuggestion.photoUrl != null) {
+      mosqueData.mosqueImageUrl = placeSuggestion.photoUrl;
+    }
+    mosqueData.mosqueName = placeSuggestion.name;
+    mosqueData.address = placeSuggestion.formattedAddress;
+    mosqueData.location = MosqueLocation(
+        latitude: placeSuggestion.lat, longitude: placeSuggestion.long);
+    complete = true;
+    notifyListeners();
   }
 
   navigateToAddPrayerTimes() {
@@ -71,17 +92,13 @@ class AddMosqueViewModel extends BaseViewModel {
   getCoordinates(String address) async {
     mosqueData.address = address;
     setBusyForObject(mosqueData, true);
-
     var result = await _geocoderService.getLatLngFromAddress(address);
-
     if (result is Coordinates) {
       var geohash = _geoHashService.getGeoHashFromCoords(
           lat: result.latitude, long: result.longitude);
       setBusyForObject(mosqueData, false);
       return mosqueData.location = MosqueLocation(
-          geohash: geohash,
-          latitude: result.latitude,
-          longitude: result.longitude);
+          latitude: result.latitude, longitude: result.longitude);
     } else {
       return await _dialogService.showDialog(
           title: 'Error',
@@ -91,16 +108,19 @@ class AddMosqueViewModel extends BaseViewModel {
   }
 
   int currentStep = 0;
+  int nameStep = 0;
+  int imageStep = 1;
+  int locationStep = 2;
   bool complete = false;
   next(int length, {String name, location}) async {
-    if (currentStep == 1) {
+    if (currentStep == nameStep) {
       if (name?.length > 0) {
         mosqueData.mosqueName = name;
         goTo(currentStep + 1);
       } else {
         nameValidationMessage = "Name is required";
       }
-    } else if (currentStep == 2) {
+    } else if (currentStep == locationStep) {
       //Add Location Step
       if (location?.length > 0) {
         await getCoordinates(location);

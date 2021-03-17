@@ -26,11 +26,10 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
   List<Mosque> defaultMosques = [];
   List<Mosque> searchMosques = [];
   UserLocation userLocation;
-
+  double searchingDistance = 10;
   Future<List<Mosque>> initiliase() async {
     var location = _locationService.currentLocation;
     var result;
-
     if (location != null) {
       userLocation = location;
       result = await _geoFlutterFireService.getMosques(
@@ -41,11 +40,10 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
     if (result is List<Mosque>) {
       return result;
     }
-
     return [];
   }
 
-  Future<void> searchForMosques(String text) async {
+    Future<void> searchForMosques(String text) async {
     if (text.length > 2) {
       searchActive = true;
       setBusyForObject(searchMosques, true);
