@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
-import 'package:marrat/ui/views/add_mosque/adding_info/info_view.dart';
+import 'package:marrat/ui/views/add_mosque/adding_info/add_mosque_info_view.dart';
 import 'package:marrat/ui/views/app_information/app_info_view.dart';
 import 'package:marrat/ui/views/mosque_views/times_view.dart';
 import 'package:stacked/stacked.dart';
@@ -49,7 +49,7 @@ class HomeView extends StatelessWidget {
       case 0:
         return TimesView();
       case 1:
-        return InfoView();
+        return AddMosqueInfoView();
       case 2:
         return AppInformationView();
       default:

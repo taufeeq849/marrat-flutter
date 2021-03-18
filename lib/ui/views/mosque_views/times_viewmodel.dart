@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:marrat/app/locator.dart';
 import 'package:marrat/app/router.gr.dart';
 import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/models/mosque/prayer.dart';
 import 'package:marrat/models/user/user_location.dart';
 import 'package:marrat/services/database/firestore_service.dart';
 import 'package:marrat/services/database/mock_data_service.dart';
@@ -43,7 +41,7 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
     return [];
   }
 
-    Future<void> searchForMosques(String text) async {
+  Future<void> searchForMosques(String text) async {
     if (text.length > 2) {
       searchActive = true;
       setBusyForObject(searchMosques, true);
@@ -55,14 +53,9 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
     }
   }
 
-  navigateToEditTimesView(Mosque mosque) {
-    return _navigationService.navigateTo(Routes.addPrayerTimesView,
-        arguments: AddPrayerTimesViewArguments(
-            mosqueData: mosque, isNewMosque: false));
-  }
-
   @override
   Future<List<Mosque>> futureToRun() async => await initiliase();
+
   setSearchActive(bool value) {
     searchActive = value;
     notifyListeners();
@@ -80,5 +73,11 @@ class TimesViewModel extends FutureViewModel<List<Mosque>> {
       mainButtonTitle: 'Edit the times',
       secondaryButtonTitle: 'Dismiss',
     );
+  }
+
+  navigateToEditTimesView(Mosque mosque) {
+    return _navigationService.navigateTo(Routes.addPrayerTimesView,
+        arguments: AddPrayerTimesViewArguments(
+            mosqueData: mosque, isNewMosque: false));
   }
 }

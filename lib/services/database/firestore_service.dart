@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:marrat/app/locator.dart';
-import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/services/location/geoflutterfire_service.dart';
 
 class FirestoreService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  GeoFlutterFireService _geoFlutterFireService =
-      locator<GeoFlutterFireService>();
   Future<bool> uploadMosqueData(Mosque mosqueData) async {
     try {
-      var docId = await _firebaseFirestore.collection('mosques').doc().id;
+      var docId = _firebaseFirestore.collection('mosques').doc().id;
       await _firebaseFirestore
           .collection('mosques')
           .doc(docId)

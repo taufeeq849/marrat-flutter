@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 
+// ignore: must_be_immutable
 class MosqueTile extends StatelessWidget {
   String imageUrl;
   String mosqueName;

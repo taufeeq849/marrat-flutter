@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:marrat/app/locator.dart';
 import 'package:marrat/extensions/time_of_day.dart';
-import 'package:marrat/services/context_service.dart';
 
 class Prayer {
   String prayerName;
@@ -50,7 +48,6 @@ class Prayer {
   factory Prayer.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
     return Prayer(
-      //TODO Figure out how to convert the time of day from the map, depending on how it is stored.
       prayerName: map['prayerName'],
       prayerTime: TimeOfDay(
           hour: int.parse(map['prayerTime'].split(":")[0]),

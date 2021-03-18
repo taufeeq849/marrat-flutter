@@ -11,7 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 class AddPrayerTimesViewModel extends BaseViewModel {
   int currentStep = 0;
   bool complete = false;
-  Mosque mosqueData;
+  Mosque mosque;
   FirestoreService _firestoreService = locator<FirestoreService>();
   bool isLoading = false;
   DialogService _dialogService = locator<DialogService>();
@@ -19,53 +19,7 @@ class AddPrayerTimesViewModel extends BaseViewModel {
   static const int infoStep = 0;
   static const int normalTimesStep = 1;
   static const int abnormalTimesStep = 2;
-  setTimeForPrayer(Prayer prayer, TimeOfDay time, bool isAdhan) {
-    if (isAdhan) {
-      prayer.adhanTime = time;
-    } else {
-      prayer.prayerTime = time;
-    }
-    return notifyListeners();
-  }
-
-  setMosqueData(Mosque mosque) {
-    mosqueData = mosque;
-    notifyListeners();
-  }
-
-  setLoading(bool loading) {
-    isLoading = loading;
-    notifyListeners();
-  }
-
-  Future submit(bool isNewMosque) async {
-    setBusy(true);
-    var result; 
-    if (isNewMosque) {
-      result = await _firestoreService.uploadMosqueData(mosqueData);
-    } else {
-      result = await _firestoreService.editMosqueData(mosqueData);
-    }
-    setBusy(false);
-    if (result) {
-      await _dialogService.showDialog(
-          title: 'Success',
-          description:
-              'You have succesfully added a mosque, view this on the main page',
-          buttonTitle: 'Show Me');
-      return _navigationService.navigateTo(Routes.homeView);
-    } else {
-      return await _dialogService.showDialog(
-        title: 'Error ',
-        description: 'Failed to add a mosque, try again later',
-      );
-    }
-  }
-
   next(int length, {String name, location}) {
-    /*  if (currentStep + 1 == abnormalTimesStep) {
-      abnormalPrayers = normalPrayers;
-    } */
     if (currentStep + 1 != length) {
       goTo(currentStep + 1);
     } else {
@@ -89,5 +43,48 @@ class AddPrayerTimesViewModel extends BaseViewModel {
   edit() {
     complete = false;
     notifyListeners();
+  }
+
+  setTimeForPrayer(Prayer prayer, TimeOfDay time, bool isAdhan) {
+    if (isAdhan) {
+      prayer.adhanTime = time;
+    } else {
+      prayer.prayerTime = time;
+    }
+    return notifyListeners();
+  }
+
+  setMosqueData(Mosque mosque) {
+    this.mosque = mosque;
+    notifyListeners();
+  }
+
+  setLoading(bool loading) {
+    isLoading = loading;
+    notifyListeners();
+  }
+
+  Future submit(bool isNewMosque) async {
+    setBusy(true);
+    var result;
+    if (isNewMosque) {
+      result = await _firestoreService.uploadMosqueData(mosque);
+    } else {
+      result = await _firestoreService.editMosqueData(mosque);
+    }
+    setBusy(false);
+    if (result) {
+      await _dialogService.showDialog(
+          title: 'Success',
+          description:
+              'You have succesfully added a mosque, view this on the main page',
+          buttonTitle: 'Show Me');
+      return _navigationService.navigateTo(Routes.homeView);
+    } else {
+      return await _dialogService.showDialog(
+        title: 'Error ',
+        description: 'Failed to add a mosque, try again later',
+      );
+    }
   }
 }

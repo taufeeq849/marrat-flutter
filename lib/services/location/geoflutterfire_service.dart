@@ -36,13 +36,6 @@ class GeoFlutterFireService {
       return [];
     }
   }
-
-  getGeohashRange({double userLat, double userLong, double distance}) {
-    final GeoFirePoint center =
-        geo.point(latitude: userLat, longitude: userLong);
-    final double radiusInM = distance * 1000;
-    return Range(lower: 'djhskjd', upper: 'djhskjd');
-  }
 }
 
 class Range {

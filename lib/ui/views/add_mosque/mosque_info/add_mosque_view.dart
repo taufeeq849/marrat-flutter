@@ -23,35 +23,13 @@ class AddMosqueView extends StatelessWidget {
   TextEditingController mosqueLocationController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Step getImageStep(AddMosqueViewModel model, bool isBusy, selectedIndex,
-      imageUrl, uploadImage) {
-    return Step(
-        isActive: selectedIndex == model.imageStep,
-        content: Column(
-          children: [
-            isBusy
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  )
-                : ImageViewer(
-                    imgUrl: imageUrl,
-                  ),
-            BusyButton(
-                title: "Upload a picture (Optional)",
-                onPressed: () async {
-                  await uploadImage();
-                }),
-          ],
-        ),
-        title: Text("Image"));
-  }
 
-  Step getNameStep(selectedIndex, AddMosqueViewModel model, validationMessage) {
+  Step getNameStep(
+    AddMosqueViewModel model,
+  ) {
     return Step(
         title: const Text("Name"),
-        isActive: selectedIndex == model.nameStep,
+        isActive: model.isStepActive(model.nameStep),
         content: TypeAheadField(
           textFieldConfiguration: TextFieldConfiguration(
               controller: mosqueLocationController,
@@ -78,19 +56,13 @@ class AddMosqueView extends StatelessWidget {
         ));
   }
 
-  Step getLocationStep(
-      bool isBusy,
-      selectedIndex,
-      AddMosqueViewModel model,
-      Function getAutoCompleteSuggestions,
-      String locationValidationMessage,
-      context) {
+  Step getLocationStep(AddMosqueViewModel model) {
     return Step(
       title: Text("Location"),
-      isActive: selectedIndex == model.locationStep,
+      isActive: model.isStepActive(model.locationStep),
       content: Column(
         children: [
-          isBusy
+          model.busy(model.mosque)
               ? Column(
                   children: [
                     Text('Fetching location'),
@@ -108,7 +80,8 @@ class AddMosqueView extends StatelessWidget {
                           InputDecoration(border: OutlineInputBorder())),
                   suggestionsCallback: (pattern) async {
                     if (pattern != null && pattern.length > 0) {
-                      return await getAutoCompleteSuggestions(pattern);
+                      return await model
+                          .getLocationAutocompleteSuggestions(pattern);
                     }
                     return [];
                   },
@@ -126,7 +99,7 @@ class AddMosqueView extends StatelessWidget {
                     mosqueLocationController.text = suggestion.address;
                   },
                 ),
-          locationValidationMessage != null
+          model.locationValidationMessage != null
               ? Text(
                   "Location is required",
                   textAlign: TextAlign.left,
@@ -138,8 +111,32 @@ class AddMosqueView extends StatelessWidget {
     );
   }
 
+  Step getImageStep(AddMosqueViewModel model) {
+    return Step(
+        isActive: model.isStepActive(model.imageStep),
+        content: Column(
+          children: [
+            model.isBusy
+                ? Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  )
+                : ImageViewer(
+                    imgUrl: model.mosque.mosqueImageUrl,
+                  ),
+            BusyButton(
+                title: "Upload a picture (Optional)",
+                onPressed: () async {
+                  await model.uploadImage();
+                }),
+          ],
+        ),
+        title: Text("Image"));
+  }
+
   Widget getConfirmationUI(AddMosqueViewModel model) {
-    Mosque mosque = model.mosqueData;
+    Mosque mosque = model.mosque;
     return model.busy(mosque)
         ? Column(
             children: [
@@ -190,16 +187,11 @@ class AddMosqueView extends StatelessWidget {
     return ViewModelBuilder.reactive(
         builder: (context, AddMosqueViewModel model, child) {
           List<Step> steps = [
-            getNameStep(model.currentStep, model, model.nameValidationMessage),
-            getImageStep(model, model.isBusy, model.currentStep,
-                model.mosqueData.mosqueImageUrl, model.uploadImage),
+            getNameStep(model),
+            getImageStep(model),
             getLocationStep(
-                model.busy(model.mosqueData),
-                model.currentStep,
-                model,
-                model.getAutocompleteSuggestions,
-                model.locationValidationMessage,
-                context),
+              model,
+            ),
           ];
 
           return Scaffold(

@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:http/http.dart';
 import 'package:marrat/keys/api_keys.dart';
-import 'package:marrat/models/mosque/mosque_location.dart';
 
 class AutocompleteService {
   final client = Client();

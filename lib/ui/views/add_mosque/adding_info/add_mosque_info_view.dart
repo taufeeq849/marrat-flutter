@@ -3,14 +3,14 @@ import 'package:marrat/styles/text_styles.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
-import 'info_viewmodel.dart';
+import 'add_mosque_info_view_model.dart';
 
-class InfoView extends StatelessWidget {
+class AddMosqueInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-        onModelReady: (InfoViewModel model) {},
-        builder: (context, InfoViewModel model, child) => Center(
+        onModelReady: (AddMosqueInfoViewModel model) {},
+        builder: (context, AddMosqueInfoViewModel model, child) => Center(
               child: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -23,12 +23,12 @@ class InfoView extends StatelessWidget {
                     ),
                     verticalSpaceLarge,
                     ElevatedButton(
-                        onPressed: () => model.navigateToAddDetails(),
+                        onPressed: () => model.navigateToAddMosqueView(),
                         child: Text("Get Started"))
                   ],
                 ),
               ),
             ),
-        viewModelBuilder: () => InfoViewModel());
+        viewModelBuilder: () => AddMosqueInfoViewModel());
   }
 }

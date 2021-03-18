@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/styles/ui_helpers.dart';
-import 'package:marrat/ui/widgets/input_field.dart';
 import 'package:marrat/ui/widgets/mosque_card.dart';
-import 'package:marrat/ui/widgets/mosque_tile.dart';
 import 'package:marrat/ui/widgets/times/table_data_grid.dart';
 import 'package:stacked/stacked.dart';
 

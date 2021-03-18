@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:marrat/styles/ui_helpers.dart';
 
+// ignore: must_be_immutable
 class AddTimeWidget extends StatefulWidget {
   String prayerName;
   TimeOfDay prayerTime;
