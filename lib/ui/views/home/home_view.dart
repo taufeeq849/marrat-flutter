@@ -27,10 +27,9 @@ class HomeView extends StatelessWidget {
               onTap: model.setIndex,
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.view_agenda), label: 'View Times'),
+                    icon: Icon(Icons.view_agenda), label: 'Nearby Mosques'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.upload_outlined),
-                    label: 'Upload a new Mosque'),
+                    icon: Icon(Icons.upload_outlined), label: 'New Mosque'),
                 BottomNavigationBarItem(
                   label: 'App Info',
                   icon: Icon(Icons.info),

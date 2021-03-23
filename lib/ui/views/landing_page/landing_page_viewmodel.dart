@@ -20,9 +20,8 @@ class LandingPageViewModel extends BaseViewModel {
           description:
               'For some reason, Marrat is not able to access your location. To continue without location, press continue',
           buttonTitle: 'Continue');
-      return _navigationService.replaceWith(
-        Routes.homeView,
-      );
+      return _navigationService.pushNamedAndRemoveUntil(Routes.homeView,
+          predicate: (route) => false);
     }
   }
 }

@@ -12,20 +12,24 @@ class AddMosqueInfoView extends StatelessWidget {
         onModelReady: (AddMosqueInfoViewModel model) {},
         builder: (context, AddMosqueInfoViewModel model, child) => Center(
               child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Add a mosque for the benefit of your muslim brothers. ",
-                      style: kcMainHeadingStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    verticalSpaceLarge,
-                    ElevatedButton(
-                        onPressed: () => model.navigateToAddMosqueView(),
-                        child: Text("Get Started"))
-                  ],
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Add a new mosque for the benefit of the Muslim community.",
+                        style: kcMainHeadingStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                      verticalSpaceLarge,
+                      ElevatedButton(
+                          onPressed: () => model.navigateToAddMosqueView(),
+                          child: Text("Get Started"))
+                    ],
+                  ),
                 ),
               ),
             ),

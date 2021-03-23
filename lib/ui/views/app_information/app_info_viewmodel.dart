@@ -2,27 +2,29 @@ import 'package:marrat/app/locator.dart';
 import 'package:marrat/app/router.gr.dart';
 import 'package:marrat/models/user/user_location.dart';
 import 'package:marrat/services/location/location_service.dart';
+import 'package:marrat/services/url_launcher/url_launcher_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class AppInformationViewModel extends BaseViewModel {
   NavigationService _navigationService = locator<NavigationService>();
-  LocationService _locationService = locator<LocationService>();
   DialogService _dialogService = locator<DialogService>();
-  String errorMessage;
-  Future getLocation() async {
-    var _userLocation = await _locationService.getLocation();
-    if (_userLocation is UserLocation) {
-      return _navigationService.navigateTo(Routes.homeView);
-    } else {
-      await _dialogService.showDialog(
-          title: 'Missing location',
-          description:
-              'For some reason, Marrat is not able to access your location. To continue without location, press continue',
-          buttonTitle: 'Continue');
-      return _navigationService.navigateTo(
-        Routes.homeView,
-      );
-    }
+  UrlLauncherService _urlLauncherService = locator<UrlLauncherService>();
+  launchVideoUrl() async {
+    var result = await _urlLauncherService
+        .launchUrl('https://www.youtube.com/watch?v=23xs_pbnCoA');
+    if (result) return;
+    return await _dialogService.showDialog(
+        title: 'Could not launch website',
+        description:
+            'Please navigate to https://www.youtube.com/watch?v=23xs_pbnCoA instead.');
+  }
+
+  launchWebsiteUrl() async {
+    var result = await _urlLauncherService.launchUrl('https://taufeeqr.dev/');
+    if (result) return;
+    return await _dialogService.showDialog(
+        title: 'Could not launch website',
+        description: 'Please navigate to https://taufeeqr.dev instead.');
   }
 }

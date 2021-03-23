@@ -43,7 +43,10 @@ dependencies:
   rxdart: ^0.24.1
   stacked: ^1.9.5
   stacked_services: ^0.7.2
-  google_fonts: ^1.0.0 
+  google_fonts: ^1.0.0
+  youtube_player_flutter: ^7.0.0+7
+  url_launcher: ^6.0.2
+
 flutter_launcher_icons:
   path: ../
 

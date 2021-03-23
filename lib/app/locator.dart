@@ -8,6 +8,7 @@ import 'package:marrat/services/location/geocoder_service.dart';
 import 'package:marrat/services/location/geoflutterfire_service.dart';
 import 'package:marrat/services/location/location_service.dart';
 import 'package:marrat/services/storage/firebase_storage_service.dart';
+import 'package:marrat/services/url_launcher/url_launcher_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 final locator = GetIt.instance;
@@ -25,5 +26,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => ImagePickerService());
   locator.registerLazySingleton(() => AutocompleteService());
   locator.registerLazySingleton(() => MockDataService());
-  locator.registerSingleton(BottomSheetService()); 
+  locator.registerLazySingleton(() => UrlLauncherService());
+  locator.registerSingleton(BottomSheetService());
 }

@@ -30,29 +30,40 @@ class AddMosqueView extends StatelessWidget {
     return Step(
         title: const Text("Name"),
         isActive: model.isStepActive(model.nameStep),
-        content: TypeAheadField(
-          textFieldConfiguration: TextFieldConfiguration(
-              controller: mosqueLocationController,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(border: OutlineInputBorder())),
-          suggestionsCallback: (pattern) async {
-            if (pattern != null && pattern.length > 0) {
-              return await model.getPlaceSuggestions(pattern);
-            }
-            return [];
-          },
-          itemBuilder: (context, suggestion) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-              child: Text(
-                suggestion.name,
-                style: kcSubHeadingStyle(Colors.black),
+        content: Column(
+          children: [
+            if (model.nameValidationMessage.length > 0)
+              Text(
+                model.nameValidationMessage,
+                style: TextStyle(color: Colors.red),
               ),
-            );
-          },
-          onSuggestionSelected: (suggestion) {
-            model.onPlaceSelected(suggestion);
-          },
+            TypeAheadField(
+              textFieldConfiguration: TextFieldConfiguration(
+                  controller: mosqueLocationController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(border: OutlineInputBorder())),
+              suggestionsCallback: (pattern) async {
+                if (pattern != null && pattern.length > 0) {
+                  return await model.getPlaceSuggestions(pattern);
+                }
+                return [];
+              },
+              itemBuilder: (context, suggestion) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                  child: Text(
+                    suggestion.name,
+                    style: kcSubHeadingStyle(Colors.black),
+                  ),
+                );
+              },
+              onSuggestionSelected: (suggestion) {
+                model.onPlaceSelected(suggestion);
+              },
+            ),
+            verticalSpaceMedium,
+          ],
         ));
   }
 

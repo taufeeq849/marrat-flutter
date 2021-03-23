@@ -18,7 +18,7 @@ class LandingPageView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  'Marrat, one stop shop for prayer times',
+                  'Marrat, view the nearest mosques and their times.',
                   style: kcMainHeadingStyle,
                   textAlign: TextAlign.center,
                 ),
