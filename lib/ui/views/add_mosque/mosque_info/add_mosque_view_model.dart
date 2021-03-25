@@ -24,7 +24,7 @@ class AddMosqueViewModel extends BaseViewModel {
   GeoFlutterFireService _geoHashService = locator<GeoFlutterFireService>();
   NavigationService _navigationService = locator<NavigationService>();
 
-  String nameValidationMessage;
+  String nameValidationMessage = '';
   String locationValidationMessage;
   int currentStep = 0;
   int nameStep = 0;
