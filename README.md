@@ -1,5 +1,5 @@
 # marrat
+## Bringing muslims closer to the masaajid. 
 
-A free open source tool where users can add or view prayer times for their favourite mosques near them. 
-
+With marrat, you can instantly view the nearest mosques and their respective prayer times. 
 For more info, go to https://marrat.crd.co/ 
