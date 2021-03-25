@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:marrat/styles/text_styles.dart';
-import 'package:marrat/styles/ui_helpers.dart';
-import 'package:marrat/ui/widgets/youtube_video_player.dart';
+import 'package:marrat/ui/widgets/webview_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'app_info_viewmodel.dart';
+import 'dart:async';
 
 class AppInformationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
       builder: (context, AppInformationViewModel model, child) {
-        return Padding(
+        String url = 'https://marrat.crd.co/';
+        return WebViewWidget(
+          url: url,
+        );
+        /* This is for the initial planned view, testing out webview;
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,6 +47,7 @@ class AppInformationView extends StatelessWidget {
             ],
           ),
         );
+ */
       },
       viewModelBuilder: () => AppInformationViewModel(),
       onModelReady: (AppInformationViewModel model) {},

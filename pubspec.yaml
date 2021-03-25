@@ -46,7 +46,7 @@ dependencies:
   google_fonts: ^1.0.0
   youtube_player_flutter: ^7.0.0+7
   url_launcher: ^6.0.2
-
+  webview_flutter: ^2.0.2
 flutter_launcher_icons:
   path: ../
 
