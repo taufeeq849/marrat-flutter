@@ -38,7 +38,9 @@ class TimesView extends StatelessWidget {
           vertical: 100,
         ),
         child: Text(
-          "There are no mosques near your current location, try searching for a mosque",
+          model.searchActive
+              ? "No results found"
+              : "There are no mosques near your current location, try searching for a mosque",
           style: kcMainHeadingStyle,
         ),
       );

@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:marrat/constants/constants.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/models/mosque/prayer.dart';
-import 'package:marrat/services/location/autocomplete_service.dart';
 import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/styles/text_styles.dart';
-import 'package:marrat/ui/widgets/add_time_widget.dart';
 import 'package:marrat/ui/widgets/mosque_card.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
-import 'package:marrat/ui/widgets/checkbox_input_field.dart';
 import 'package:marrat/ui/widgets/image_uploader.dart';
-import 'package:marrat/ui/widgets/input_field.dart';
-
 import 'add_mosque_view_model.dart';
 
 class AddMosqueView extends StatelessWidget {
