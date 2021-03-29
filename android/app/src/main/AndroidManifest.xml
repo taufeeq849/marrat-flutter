@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taufeeqr.marrat">
    <application
-        android:label="marrat"
+        android:label="Marrat: View Nearest Masaajid and Prayer Times"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
