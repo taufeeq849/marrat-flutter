@@ -40,10 +40,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>	
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires access to view the mosques around you</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app requires access to view the mosques around you</string>
+	<false/>
 </dict>
 </plist>

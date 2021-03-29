@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:90700511986:android:a63731bf4c45e13cf2ae6b",
+        "mobilesdk_app_id": "1:90700511986:android:f1233bb88e8fcce2f2ae6b",
         "android_client_info": {
-          "package_name": "com.example.marrat"
+          "package_name": "com.taufeeqr.marrat"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "90700511986-ihn8it1bh6bf4cn24asijrbkqcijg7q4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.marrat",
-            "certificate_hash": "1f50c9495cbce30324dffaba248a4c32e8a6dc20"
-          }
-        },
         {
           "client_id": "90700511986-e7cfof38srt64tbdoaitgbab7ec1th08.apps.googleusercontent.com",
           "client_type": 3

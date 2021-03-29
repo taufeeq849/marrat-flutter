@@ -1,9 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.marrat">
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
-<uses-permission android:name="android.permission.INTERNET"/>
+    package="com.taufeeqr.marrat">
    <application
-        android:label="Marrat: View Masaajid and Times"
+        android:label="marrat"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

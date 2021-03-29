@@ -43,24 +43,28 @@ class FirestoreService {
   }
 
   Future<List<Mosque>> searchForMosques(String query) async {
-    var querySnapshot = await _firebaseFirestore
-        .collection('mosques')
-        .where(
-          'mosqueName',
-          isGreaterThanOrEqualTo: query,
-        )
-        .where('mosqueName',
-            isLessThanOrEqualTo: query.substring(0, query.length - 1) +
-                String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      List<Mosque> mosques = querySnapshot.docs.map((e) {
-        print(e.data());
-        return Mosque.fromMap(e.data());
-      }).toList();
-      return mosques;
+    try {
+      var querySnapshot = await _firebaseFirestore
+          .collection('mosques')
+          .where(
+            'mosqueName',
+            isGreaterThanOrEqualTo: query,
+          )
+          .where('mosqueName',
+              isLessThanOrEqualTo: query.substring(0, query.length - 1) +
+                  String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        List<Mosque> mosques = querySnapshot.docs.map((e) {
+          print(e.data());
+          return Mosque.fromMap(e.data());
+        }).toList();
+        return mosques;
+      }
+      return [];
+    } catch (e) {
+      print(e.toString());
+      return [];
     }
-    print('is empty');
-    return [];
   }
 }
