@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/ui/views/add_mosque/adding_info/add_mosque_info_view.dart';
-import 'package:marrat/ui/views/app_information/app_info_view.dart';
 import 'package:marrat/ui/views/mosque_views/times_view.dart';
 import 'package:stacked/stacked.dart';
-
 import 'home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
@@ -30,10 +28,6 @@ class HomeView extends StatelessWidget {
                     icon: Icon(Icons.view_agenda), label: 'Nearby Mosques'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.upload_outlined), label: 'New Mosque'),
-                BottomNavigationBarItem(
-                  label: 'App Info',
-                  icon: Icon(Icons.info),
-                )
               ],
             ),
           ),
@@ -49,8 +43,6 @@ class HomeView extends StatelessWidget {
         return TimesView();
       case 1:
         return AddMosqueInfoView();
-      case 2:
-        return AppInformationView();
       default:
         return TimesView();
     }
