@@ -3,9 +3,10 @@ import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/styles/text_styles.dart';
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/input_field.dart';
-import 'package:marrat/ui/widgets/mosque_card.dart';
+import 'package:marrat/ui/widgets/mosque_card/mosque_card.dart';
 import 'package:stacked/stacked.dart';
 import 'times_viewmodel.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class TimesView extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
@@ -23,7 +24,7 @@ class TimesView extends StatelessWidget {
     );
   }
 
-  Widget _buildListView(TimesViewModel model) {
+  Widget _buildListView(TimesViewModel model, bool isDesktop) {
     bool isSearch = model.searchActive;
     List<Mosque> mosques = isSearch ? model.searchMosques : model.data;
     if (isSearch && model.busy(model.searchMosques)) {
@@ -45,6 +46,31 @@ class TimesView extends StatelessWidget {
         ),
       );
     }
+    if (isDesktop) {
+      return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 3 / 2,
+              crossAxisCount: 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: mosques == null ? 0 : mosques?.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            Mosque mosque = mosques[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: MosqueCard(
+                isDesktop: isDesktop,
+                imageUrl: mosque.mosqueImageUrl,
+                mosqueName: mosque.mosqueName,
+                distance: mosque.distance,
+                address: mosque.address,
+                onTap: () => model.showTimesBottomSheet(mosque),
+              ),
+            );
+          });
+    }
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -58,6 +84,7 @@ class TimesView extends StatelessWidget {
               mosqueName: mosque.mosqueName,
               distance: mosque.distance,
               address: mosque.address,
+              isDesktop: isDesktop,
               onTap: () => model.showTimesBottomSheet(mosque),
             ),
           );
@@ -78,8 +105,10 @@ class TimesView extends StatelessWidget {
                 verticalSpaceLarge,
                 CircularProgressIndicator()
               ])
-            : SingleChildScrollView(
-                child: Padding(
+            : ResponsiveBuilder(builder: (context, sizingInformation) {
+                print(sizingInformation.isDesktop);
+                return SingleChildScrollView(
+                    child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -88,11 +117,14 @@ class TimesView extends StatelessWidget {
                           style: kcMainHeadingStyle),
                       verticalSpaceMedium,
                       _buildSearchBox(model),
-                      _buildListView(model)
+                      _buildListView(
+                          model,
+                          sizingInformation.isDesktop ||
+                              sizingInformation.isTablet)
                     ],
                   ),
-                ),
-              ),
+                ));
+              }),
         viewModelBuilder: () => TimesViewModel());
   }
 }

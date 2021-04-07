@@ -20,7 +20,7 @@ class AddMosqueInfoView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Add a new mosque for the benefit of the Muslim community.",
+                        "Add a new mosque for the benefit of the Muslim community. Note that in order to do so, you need special permission to cut back on costs. Contact taufeeq849@gmail.com to find out more.",
                         style: kcMainHeadingStyle,
                         textAlign: TextAlign.center,
                       ),

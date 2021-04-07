@@ -64,6 +64,8 @@ class AutocompleteService {
         return "Failed to fetch suggestions";
       }
     } catch (e) {
+      print(e.toString());
+
       return e.toString();
     }
   }

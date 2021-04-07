@@ -10,6 +10,8 @@ class MosqueCard extends StatelessWidget {
   final String address;
   final double distance;
   final Function onTap;
+  final bool isDesktop;
+
   const MosqueCard({
     Key key,
     this.onTap,
@@ -17,6 +19,7 @@ class MosqueCard extends StatelessWidget {
     this.mosqueName,
     this.address,
     this.distance,
+    @required this.isDesktop,
   }) : super(key: key);
 
   @override

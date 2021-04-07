@@ -45,6 +45,7 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.2
+  responsive_builder: ^0.4.1
 flutter_launcher_icons:
   path: ../
 

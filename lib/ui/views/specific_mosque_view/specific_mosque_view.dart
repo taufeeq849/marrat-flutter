@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marrat/models/mosque/mosque.dart';
-import 'package:marrat/ui/widgets/mosque_card.dart';
+import 'package:marrat/ui/widgets/mosque_card/mosque_card.dart';
 import 'package:marrat/ui/widgets/times/table_data_grid.dart';
 import 'package:stacked/stacked.dart';
 
@@ -10,8 +10,6 @@ class SpecificMosqueView extends StatelessWidget {
   final Mosque mosque;
 
   const SpecificMosqueView({Key key, this.mosque}) : super(key: key);
- 
- 
 
   Widget build(BuildContext context) {
     return ViewModelBuilder<SpecificMosqueViewModel>.reactive(
@@ -32,6 +30,7 @@ class SpecificMosqueView extends StatelessWidget {
                     child: Column(
                       children: [
                         MosqueCard(
+                          isDesktop: false,
                           address: mosque.address,
                           distance: mosque.distance,
                           imageUrl: mosque.mosqueImageUrl,

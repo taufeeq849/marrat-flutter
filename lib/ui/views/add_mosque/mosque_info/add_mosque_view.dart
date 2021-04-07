@@ -3,9 +3,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:marrat/models/mosque/mosque.dart';
 import 'package:marrat/styles/app_colors.dart';
 import 'package:marrat/styles/text_styles.dart';
-import 'package:marrat/ui/widgets/mosque_card.dart';
+import 'package:marrat/ui/widgets/mosque_card/mosque_card.dart';
 import 'package:stacked/stacked.dart';
-
 import 'package:marrat/styles/ui_helpers.dart';
 import 'package:marrat/ui/widgets/busy_button.dart';
 import 'package:marrat/ui/widgets/image_uploader.dart';
@@ -162,6 +161,7 @@ class AddMosqueView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: MosqueCard(
+                  isDesktop: false,
                   address: mosque.address,
                   imageUrl: mosque.mosqueImageUrl,
                   mosqueName: mosque.mosqueName,
