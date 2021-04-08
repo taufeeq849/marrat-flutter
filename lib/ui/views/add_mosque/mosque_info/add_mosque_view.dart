@@ -161,7 +161,6 @@ class AddMosqueView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: MosqueCard(
-                  isDesktop: false,
                   address: mosque.address,
                   imageUrl: mosque.mosqueImageUrl,
                   mosqueName: mosque.mosqueName,

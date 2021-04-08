@@ -10,7 +10,6 @@ class MosqueCard extends StatelessWidget {
   final String address;
   final double distance;
   final Function onTap;
-  final bool isDesktop;
 
   const MosqueCard({
     Key key,
@@ -19,7 +18,6 @@ class MosqueCard extends StatelessWidget {
     this.mosqueName,
     this.address,
     this.distance,
-    @required this.isDesktop,
   }) : super(key: key);
 
   @override
@@ -37,79 +35,69 @@ class MosqueCard extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          child: Stack(
-            children: <Widget>[
-              Column(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Container(
+              color: Colors.white70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  AspectRatio(
-                      aspectRatio: 2,
-                      child: CachedNetworkImage(imageUrl: imageUrl)),
-                  Container(
-                    color: Colors.white70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, top: 8, bottom: 8),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(mosqueName,
-                                      textAlign: TextAlign.left,
-                                      style: kcMainHeadingStyle),
-                                  verticalSpaceSmall,
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: Text(address,
-                                            style: kcSubHeadingStyle(
-                                                Colors.grey[500])),
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Icon(
-                                        Icons.pin_drop,
-                                        size: 12,
-                                        color: primaryColor,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        if (distance != null)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 16, top: 8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                  Expanded(
+                    child: Container(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(mosqueName,
+                                textAlign: TextAlign.left,
+                                style: kcMainHeadingStyle),
+                            verticalSpaceSmall,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text('${distance.toStringAsFixed(1)} km to you',
-                                    textAlign: TextAlign.left,
-                                    style: kcHeading1Style),
+                                Flexible(
+                                  child: Text(address,
+                                      style:
+                                          kcSubHeadingStyle(Colors.grey[500])),
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Icon(
+                                  Icons.pin_drop,
+                                  size: 12,
+                                  color: primaryColor,
+                                ),
                               ],
                             ),
-                          ),
-                      ],
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+                  if (distance != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16, top: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text('${distance.toStringAsFixed(1)} km to you',
+                              textAlign: TextAlign.left,
+                              style: kcHeading1Style),
+                        ],
+                      ),
+                    ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

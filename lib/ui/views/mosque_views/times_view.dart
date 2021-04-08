@@ -46,13 +46,12 @@ class TimesView extends StatelessWidget {
         ),
       );
     }
-    if (isDesktop) {
+    /*    if (isDesktop) {
       return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 3 / 2,
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
+            childAspectRatio: 3 / 2,
+            crossAxisCount: 2,
+          ),
           itemCount: mosques == null ? 0 : mosques?.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -70,7 +69,7 @@ class TimesView extends StatelessWidget {
               ),
             );
           });
-    }
+    } */
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -84,7 +83,6 @@ class TimesView extends StatelessWidget {
               mosqueName: mosque.mosqueName,
               distance: mosque.distance,
               address: mosque.address,
-              isDesktop: isDesktop,
               onTap: () => model.showTimesBottomSheet(mosque),
             ),
           );

@@ -30,7 +30,6 @@ class SpecificMosqueView extends StatelessWidget {
                     child: Column(
                       children: [
                         MosqueCard(
-                          isDesktop: false,
                           address: mosque.address,
                           distance: mosque.distance,
                           imageUrl: mosque.mosqueImageUrl,
