@@ -34,8 +34,7 @@ class AddMosqueViewModel extends BaseViewModel {
 
   next(int length, {String name, location}) async {
     if (currentStep == nameStep) {
-      if (name.length > 0) {
-        mosque.mosqueName = name;
+      if (mosque.mosqueName != null && mosque.mosqueName?.length > 0) {
         goTo(currentStep + 1);
       } else {
         nameValidationMessage = "Name is required";
@@ -82,9 +81,6 @@ class AddMosqueViewModel extends BaseViewModel {
   }
 
   onPlaceSelected(PlaceSuggestion placeSuggestion) async {
-    if (placeSuggestion.photoUrl != null) {
-      mosque.mosqueImageUrl = placeSuggestion.photoUrl;
-    }
     mosque.mosqueName = placeSuggestion.name;
     mosque.address = placeSuggestion.formattedAddress;
     mosque.location = MosqueLocation(
@@ -151,5 +147,11 @@ class AddMosqueViewModel extends BaseViewModel {
   editData() {
     complete = false;
     notifyListeners();
+  }
+
+  void setMosqueName(String pattern) {
+    mosque.mosqueName = pattern;
+    notifyListeners(); 
+
   }
 }

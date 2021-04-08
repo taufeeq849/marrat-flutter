@@ -20,13 +20,13 @@ class AddMosqueInfoView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Add a new mosque for the benefit of the Muslim community. Note that in order to do so, you need special permission to cut back on costs. Contact taufeeq849@gmail.com to find out more.",
+                        "To add a new mosque, please complete the following survery. The mosque should then be added in 24 hours.",
                         style: kcMainHeadingStyle,
                         textAlign: TextAlign.center,
                       ),
                       verticalSpaceLarge,
                       ElevatedButton(
-                          onPressed: () => model.navigateToAddMosqueView(),
+                          onPressed: () => model.launchUrl(),
                           child: Text("Get Started"))
                     ],
                   ),

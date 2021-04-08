@@ -36,6 +36,7 @@ class AddMosqueView extends StatelessWidget {
                   decoration: InputDecoration(border: OutlineInputBorder())),
               suggestionsCallback: (pattern) async {
                 if (pattern != null && pattern.length > 0) {
+                  model.setMosqueName(pattern); 
                   return await model.getPlaceSuggestions(pattern);
                 }
                 return [];
@@ -114,30 +115,6 @@ class AddMosqueView extends StatelessWidget {
     );
   }
 
-  Step getImageStep(AddMosqueViewModel model) {
-    return Step(
-        isActive: model.isStepActive(model.imageStep),
-        content: Column(
-          children: [
-            model.isBusy
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  )
-                : ImageViewer(
-                    imgUrl: model.mosque.mosqueImageUrl,
-                  ),
-            BusyButton(
-                title: "Upload a picture (Optional)",
-                onPressed: () async {
-                  await model.uploadImage();
-                }),
-          ],
-        ),
-        title: Text("Image"));
-  }
-
   Widget getConfirmationUI(AddMosqueViewModel model) {
     Mosque mosque = model.mosque;
     return model.busy(mosque)
@@ -191,7 +168,6 @@ class AddMosqueView extends StatelessWidget {
         builder: (context, AddMosqueViewModel model, child) {
           List<Step> steps = [
             getNameStep(model),
-            getImageStep(model),
             getLocationStep(
               model,
             ),

@@ -6,6 +6,7 @@ import 'package:marrat/keys/api_keys.dart';
 
 class AutocompleteService {
   final client = Client();
+
   getLocationSuggestions({String queryText = ''}) async {
     final request =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$queryText&types=address&language=za&components=country:za&key=$GOOGLE_PLACES_API_KEY';
@@ -47,13 +48,10 @@ class AutocompleteService {
             if (p['photos'] != null) {
               photoRef = p['photos'][0]['photo_reference'];
             }
-            String imageUrl =
-                'https://maps.googleapis.com/maps/api/place/photo?photoreference=$photoRef&sensor=false&maxheight=1600&maxwidth=1600&key=$GOOGLE_PLACES_API_KEY';
             return PlaceSuggestion(
               name: p['name'],
               formattedAddress: p['formatted_address'],
               photoRef: photoRef,
-              photoUrl: imageUrl,
               lat: p['geometry']['location']['lat'],
               long: p['geometry']['location']['lng'],
             );
@@ -92,14 +90,12 @@ class LocationSuggestion {
 class PlaceSuggestion {
   final String name;
   final String photoRef;
-  final String photoUrl;
   final double lat;
   final double long;
   final String formattedAddress;
 
   PlaceSuggestion(
       {this.name,
-      this.photoUrl,
       this.photoRef,
       this.lat,
       this.long,
